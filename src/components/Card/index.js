@@ -19,18 +19,19 @@ export default class Card extends React.Component {
           var hue = 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
           $(this).css("border-top-color", hue);
       });
+      this.setState({ blur: '' });
 
-      setTimeout(
-        () => {
-          if(this.state.blur !== ''){
-            this.setState({ blur: '' });
-          }
-          else{
-            this.setState({ blur: 'blur' });
-          }
-        },
-        Math.random() * (10000 - 5000) + 5000
-      );
+      // setTimeout(
+      //   () => {
+      //     if(this.state.blur !== ''){
+      //       this.setState({ blur: '' });
+      //     }
+      //     else{
+      //       this.setState({ blur: 'blur' });
+      //     }
+      //   },
+      //   Math.random() * (10000 - 5000) + 5000
+      // );
   }
 
   componentDidUpdate(prevProps, prevState){
@@ -39,7 +40,7 @@ export default class Card extends React.Component {
 
   render() {
     // <!--<div class="hover-up card" style= { {"border-top: 4px solid;-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background-color: #696969 !important;"}}>-->
-    return (<a href="#modal1" id="<%=job['id']%>">
+    return (<a href="#modal1" className="jobCard">
             <div className="hover-up card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
               <div className="box-shadow">
                 <div className="project-box">

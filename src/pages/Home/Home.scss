@@ -1,0 +1,11 @@
+.home {
+  .row {
+    padding-top: 3%;
+  }
+}
+
+#jobContainer {
+  max-height: 80%;
+  overflow-y: scroll;
+  position: fixed;
+}

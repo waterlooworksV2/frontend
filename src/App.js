@@ -1,31 +1,28 @@
 import React, { Component } from 'react';
+import * as React from 'react';
 import { match } from 'react-router-dom';
+import { Route, Redirect } from 'react-router';
 import logo from './logo.svg';
 import './App.css';
 
 import Navigation from './components/Navigation'
 import Card from './components/Card'
+import FullJob from './components/FullJob'
 
-class App extends Component {
+import Home from './pages/Home'
+
+export default class App extends React.Component {
   render() {
+    const { url } = this.props.match;
     return (
-      <div className="app">
-        <Navigation />
-        <div className="row">
-          <div className="col l5 m5 s12">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-          </div>
-          <div className="col l7 m7">
-            <Card />
-          </div>
+      <div>
+        <div className="app">
+          <Navigation />
+        </div>
+        <div className="app-content">
+          <Route exact strict path="/home" component={Home} />
         </div>
       </div>
     );
   }
 }
-
-export default App;
