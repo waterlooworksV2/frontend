@@ -3,6 +3,8 @@
 import * as React from 'react';
 import './Card.css';
 
+import JobService from '../../services/JobService.js'
+
 import { Redirect, NavLink } from 'react-router-dom';
 
 export default class Card extends React.Component {
@@ -10,8 +12,18 @@ export default class Card extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      blur:'blur'
+      blur:'blur',
+      job: {
+        "Job Title:": "Data Analyst",
+        "Organization:": "ContextLogic",
+        "_id": "65123",
+        "Job Summary:": "On the Data team at Wish, we are using data to build one of the fastest growing and largest eCommerce startups today, with over 300 million users. We're doing this from the ground up, and building our own merchant platform, logistics network, customer service software, content and risk management tools. We're a small team and move quickly."
+      }
     }
+  }
+
+  getJob(id) {
+    return JobService.getPreviewJobID(id)
   }
 
   componentDidMount(){
@@ -19,23 +31,11 @@ export default class Card extends React.Component {
           var hue = 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
           $(this).css("border-top-color", hue);
       });
-      this.setState({ blur: '' });
 
-      // setTimeout(
-      //   () => {
-      //     if(this.state.blur !== ''){
-      //       this.setState({ blur: '' });
-      //     }
-      //     else{
-      //       this.setState({ blur: 'blur' });
-      //     }
-      //   },
-      //   Math.random() * (10000 - 5000) + 5000
-      // );
-  }
-
-  componentDidUpdate(prevProps, prevState){
-
+      this.getJob(this.props.id).then(data => {
+        this.setState({ job: data });
+        this.setState({ blur: '' });
+      });
   }
 
   render() {
@@ -44,8 +44,8 @@ export default class Card extends React.Component {
             <div className="hover-up card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
               <div className="box-shadow">
                 <div className="project-box">
-                  <p><span className={`primary ${this.state.blur}`}>Software Developer, 2G Robotics Inc</span>
-                  <br /><span className={`secondary ${this.state.blur}`}>Are you passionate about using C++ to develop solutions to challenging problems? Are you eager to learn and develop new technologies, push the boundaries of what is possible, and help make a difference to society and the environment? 2G Robotics is looking for someone who thrives in a start-up research and development environment, where innovation, initiative, flexibility and results are valued...</span></p>
+                  <p className={`primary ${this.state.blur}`}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
+                  <p className={`secondary ${this.state.blur}`}>{this.state.job["Job Summary:"]}</p>
                 </div>
               </div>
             </div>

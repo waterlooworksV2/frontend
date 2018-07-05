@@ -19,7 +19,7 @@ export default class Navigation extends React.Component {
         <nav>
           <div className="nav-wrapper grey lighten-5">
             <NavLink to="/" className="brand-logo left">
-              <div><img src={logo} width="56px" height="56px"/></div>
+              <div><img src={logo} width="56px" height="56px" alt=""/></div>
             </NavLink>
             <ul className="right">
               <li><NavLink to="/profile" exact={true}>

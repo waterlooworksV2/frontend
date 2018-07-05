@@ -3,6 +3,8 @@
 import * as React from 'react';
 import './FullJob.css';
 
+import JobService from '../../services/JobService.js'
+
 import { Redirect, NavLink } from 'react-router-dom';
 
 export default class FullJob extends React.Component {
@@ -10,8 +12,52 @@ export default class FullJob extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      blur:'blur'
+      blur:'blur',
+      job: {
+        "Additional Application Information:" : "***IMPORTANT*** PLEASE TAKE THE FOLLOWING STEPS TO COMPLETE YOUR APPLICATION TO THE DATA ANALYST INTERNSHIP ROLE:↵↵1. Submit your resume via this WaterlooWorks posting.↵2. Submit your resume on our careers page. Click here to access our application form for this role. If you apply to more than one Wish role, you must submit your application via each unique link associated with the specific job post.↵↵Only candidates that have followed steps 1 AND 2 for each role applied to will be considered. No exceptions.",
+        "Additional Information:": "",
+        "Additional Job Identifiers:" : "",
+        "Application Deadline:" : "May 23, 2019 09:00:00 AM",
+        "Application Documents Required:" : "University of Waterloo Co-op Work History,Résumé,Grade Report",
+        "Application Method:" : "WaterlooWorks",
+        "Compensation and Benefits Information:" : "",
+        "Department:" : "",
+        "Division:" : "W",
+        "Employer Internal Job Number:" : "",
+        "Job - Address Line One:" : "FAKE ADDRESS HERE",
+        "Job - Address Line Two:" : "",
+        "Job - City:" : "San Francisco",
+        "Job - Country:" : "United States",
+        "Job - Postal Code / Zip Code (X#X #X#):" : "94104",
+        "Job - Province / State:" : "California",
+        "Job Category (NOC):" : "2173 Software Engineers and Designers",
+        "Job Location (if exact address unknown or multiple locations):" : "",
+        "Job Posting Status:" : "s",
+        "Job Responsibilities:" : "These are totally fake job reponsibilities \n I don't expect you to know even half of the stuff when you come here. Peace Out",
+        "Job Summary:" : "This is a totally fake job summary \n I don't expect you to know even half of the stuff when you come here. Peace Out",
+        "Job Title:" : "Fake Job",
+        "Job Type:" : "Co-op Main",
+        "Level:" : ["Intermediate↵Senior", "Intermediate", "Senior"],
+        "Number of Job Openings:" : "1",
+        "Organization:" : "Fake Company",
+        "Region:" : "USA - West",
+        "Reports to:" : "",
+        "Required Skills:" : "",
+        "Required skills:" : "",
+        "Special Job Requirements:" : "This is a fake note from CECA, this is just to populate the field before I get the REALL DATAA",
+        "Targeted Clusters:" :  ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-"],
+        "Targeted Degrees and Disciplines:" : "This field has been useless to me since day 1",
+        "Title:" : "FAKE TITLE",
+        "Transportation and Housing:" : "NONE PROVIDED",
+        "Work Term Duration:" : "4 month work term",
+        "Work Term:" : "2018 - Fall",
+        "_id" : "65123"
+      }
     }
+  }
+
+  getJob(id) {
+    return JobService.getFullJobID(id)
   }
 
   componentDidMount(){
@@ -19,22 +65,20 @@ export default class FullJob extends React.Component {
           var hue = 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
           $(this).css("border-top-color", hue);
       });
-      this.setState({ blur: '' });
-      // setTimeout(
-      //   () => {
-      //     if(this.state.blur !== ''){
-      //       this.setState({ blur: '' });
-      //     }
-      //     else{
-      //       this.setState({ blur: 'blur' });
-      //     }
-      //   },
-      //   Math.random() * (10000 - 5000) + 5000
-      // );
+      this.getJob(this.props.id).then(data => {
+        this.setState({ job: data });
+        this.setState({ blur: '' });
+      });
   }
 
-  componentDidUpdate(prevProps, prevState){
-
+  componentDidUpdate(prevProps){
+    if(this.props.id !== prevProps.id){
+      this.setState({ blur: 'blur' });
+      this.getJob(this.props.id).then(data => {
+        this.setState({ job: data });
+        this.setState({ blur: '' });
+      });
+    }
   }
 
   render() {
@@ -45,27 +89,17 @@ export default class FullJob extends React.Component {
             <div className="card">
                 <div className={`card-content box-shadow ${this.state.blur}`}  id="jobdeets" style={{"scrollBehavior": "smooth", "borderTop": "4px solid rgb(199, 196, 253)", "paddingTop": "2%", "paddingRight": "2%", "color": "#999", "position": "fixed", "overflowY": "scroll", "maxHeight": "80%", "marginRight":"2%"}}>
                     <div className="card-title">
-                        <p style={{"fontSize":"18px", "fontWeight":"400"}}>Job Title, Organisation</p>
+                        <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
                     </div>
                     <p className="secondary">
-                      <span className={`primary ${this.state.blur}`}>Location: </span>Job - City:, Job - Province / State: <br /><br />
-                      <span className={`primary ${this.state.blur}`}>Number of Job Openings: </span>Number of Job Openings:<br /><br />
-                      <span className={`primary ${this.state.blur}`} id="respo">Responsibilities:</span>
-                      Job Responsibilities:replace(/\n/g, '<br/>'): ''
-                      Develop low-level embedded C++ firmware for the laser scanner, working directly with robotic systems including single board computers, microcontrollers, cameras, and lasers
-                      Develop C++ software for image analysis and processing, along with high-speed data transfer to customer systems
-                      Develop C++ software for the graphical interface that allows our customers to monitor and manage the laser scanner
-                      Prepare design documents and test plans for the features you are developing and review them with Product Management
-                      Participate actively in the Agile development process: planning, design reviews, code reviews, and unit testing
+                      <span className={`primary ${this.state.blur}`}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
+                      <span className={`primary ${this.state.blur}`}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
+                      <span className={`primary ${this.state.blur}`} id="respo">Responsibilities: </span>
+                      {this.state.job["Job Responsibilities:"]}
                       <br /><br /><span className={`primary ${this.state.blur}`} id="req">Requirements: </span>
-                      RequiredSkills Required Skills: Required Skills:
+                      {this.state.job["Required Skills:"] === "" ? "Not Given" : this.state.job["Required Skills:"]}
                       <br /><br /><span className={`primary ${this.state.blur}`} id="desc">Description: </span>
-                      Job Summary:replace(/\n/g, '<br/>'): '';
-                      Are you passionate about using C++ to develop solutions to challenging problems? Are you eager to learn and develop new technologies, push the boundaries of what is possible, and help make a difference to society and the environment?
-                      2G Robotics is looking for someone who thrives in a start-up research and development environment, where innovation, initiative, flexibility and results are valued. If this sounds like you, we want to hear from you!
-
-                      The Position
-                      As a Software Developer Intern, you will help create the software for our industry-leading ULS line of underwater laser scanners. Working with a small but growing software team, you will contribute to the full software stack, from low-level embedded firmware to the graphical interface that allows our customers to monitor and manage the system.
+                      {this.state.job["Job Summary:"]}
                       </p>
                 </div>
             </div>
