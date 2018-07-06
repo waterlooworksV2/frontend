@@ -52,5 +52,13 @@ export default class JobService{
       }, console.log(reject));
     });
   }
+
+  static getJobIDs = (query) => {
+    return new Promise((resolve, reject) => {
+      instance.get(baseURL + 'id/search/?' + stringify({q: query})).then(({data}) => {
+        resolve(data);
+      }, console.log(reject));
+    });
+  }
 }
 // axios.get('/job', )
