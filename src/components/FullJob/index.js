@@ -61,10 +61,6 @@ export default class FullJob extends React.Component {
   }
 
   componentDidMount(){
-      $('.card').each(function () {
-          var hue = 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
-          $(this).css("border-top-color", hue);
-      });
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data });
         this.setState({ blur: '' });

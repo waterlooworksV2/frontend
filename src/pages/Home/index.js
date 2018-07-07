@@ -5,6 +5,7 @@ import './Home.css';
 import Navigation from '../../components/Navigation'
 import Card from '../../components/Card'
 import FullJob from '../../components/FullJob'
+import Pagination from '../../components/Pagination'
 
 import JobService from '../../services/JobService.js'
 
@@ -19,7 +20,6 @@ export default class Home extends Component {
 
   onClickCard(id){
     this.setState({id: id});
-    console.log(id)
   }
 
   getJobIDs() {
@@ -35,10 +35,11 @@ export default class Home extends Component {
       <div className="home">
         <div className="row">
           <div id="jobContainer" className="col l5 m5 s12">
-          {this.state.ids.map((id, i) => <Card id={id} onClickCard={this.onClickCard.bind(this)}/>)}
+            {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
+            <Pagination />
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
-          <FullJob id={this.state.id}/>
+            <FullJob id={this.state.id}/>
           </div>
         </div>
       </div>

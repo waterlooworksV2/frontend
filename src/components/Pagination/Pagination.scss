@@ -1,0 +1,14 @@
+.pagination {
+  li {
+    padding: 2%;
+  }
+  li.active{
+      background-color: transparent;
+      color: #999;
+      font-size: 16px;
+    }
+  li.inactive {
+    color: #999;
+    font-size: 14px;
+  }
+}

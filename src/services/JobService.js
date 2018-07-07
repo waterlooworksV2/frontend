@@ -33,7 +33,7 @@ export default class JobService{
     return new Promise((resolve, reject) => {
       instance.get(baseURL + 'preview/' + id).then(({data}) => {
         resolve(data);
-      }, console.log(reject));
+      });
     });
   }
 
@@ -41,7 +41,7 @@ export default class JobService{
     return new Promise((resolve, reject) => {
       instance.get(baseURL + 'full/' + id).then(({data}) => {
         resolve(data);
-      }, console.log(reject));
+      });
     });
   }
 
@@ -49,7 +49,7 @@ export default class JobService{
     return new Promise((resolve, reject) => {
       instance.get(baseURL + 'job/search/?' + stringify({q: query})).then(({data}) => {
         resolve(data);
-      }, console.log(reject));
+      });
     });
   }
 
@@ -57,7 +57,7 @@ export default class JobService{
     return new Promise((resolve, reject) => {
       instance.get(baseURL + 'id/search/?' + stringify({q: query})).then(({data}) => {
         resolve(data);
-      }, console.log(reject));
+      });
     });
   }
 }
