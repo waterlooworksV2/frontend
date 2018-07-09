@@ -1,5 +1,3 @@
-/*global $*/
-
 import * as React from 'react';
 import './FullJob.css';
 

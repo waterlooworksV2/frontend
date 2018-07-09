@@ -14,7 +14,9 @@ export default class Home extends Component {
     super(props);
     this.state = {
       id: 66344,
-      ids: []
+      ids: [],
+      query: '',
+      pageNo: 1
     }
   }
 
@@ -22,8 +24,13 @@ export default class Home extends Component {
     this.setState({id: id});
   }
 
+  onClickPage(pageNo){
+    this.setState({pageNo: pageNo});
+    this.getJobIDs();
+  }
+
   getJobIDs() {
-    JobService.getJobIDs().then(data => {this.setState({ids: data, id: data[0]});});
+    JobService.getJobIDs({q:this.state.query,page:this.state.pageNo}).then(data => {this.setState({ids: data, id: data[0]});});
   }
 
   componentDidMount() {
@@ -36,7 +43,7 @@ export default class Home extends Component {
         <div className="row">
           <div id="jobContainer" className="col l5 m5 s12">
             {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination />
+            <Pagination onClickPage={this.onClickPage.bind(this)}/>
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
             <FullJob id={this.state.id}/>

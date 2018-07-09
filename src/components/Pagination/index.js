@@ -10,14 +10,19 @@ export default class Pagination extends React.Component {
     };
   }
 
+  onClickPage(pageNo) {
+    this.setState({currentPage: pageNo})
+    this.props.onClickPage(pageNo);
+  }
+
   render() {
     var lis = []
-    {if(this.state.currentPage != 1) {
-      lis.push(<li key={this.state.currentPage-1} className="inactive">{this.state.currentPage-1}</li>)
+    {if(this.state.currentPage > 1) {
+      lis.push(<a href="#!" key={this.state.currentPage-1}><li onClick={() => this.onClickPage(this.state.currentPage-1)} className="inactive">{this.state.currentPage-1}</li></a>)
     }}
-    lis.push(<li key={this.state.currentPage} className="active">{this.state.currentPage}</li>)
+    lis.push(<a href="#!" key={this.state.currentPage}><li className="active">{this.state.currentPage}</li></a>)
     {if(this.state.currentPage < this.state.totalPages) {
-      lis.push(<li key={this.state.currentPage+1} className="inactive">{this.state.currentPage+1}</li>)
+      lis.push(<a href="#!" key={this.state.currentPage+1}><li onClick={() => this.onClickPage(this.state.currentPage+1)} className="inactive">{this.state.currentPage+1}</li></a>)
     }}
     return (
       <ul className="pagination center-align" style={{"width":"100%"}}>

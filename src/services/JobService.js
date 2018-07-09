@@ -47,7 +47,7 @@ export default class JobService{
 
   static search = (query) => {
     return new Promise((resolve, reject) => {
-      instance.get(baseURL + 'job/search/?' + stringify({q: query})).then(({data}) => {
+      instance.get(baseURL + 'job/search/?' + stringify(query)).then(({data}) => {
         resolve(data);
       });
     });
@@ -55,7 +55,7 @@ export default class JobService{
 
   static getJobIDs = (query) => {
     return new Promise((resolve, reject) => {
-      instance.get(baseURL + 'id/search/?' + stringify({q: query})).then(({data}) => {
+      instance.get(baseURL + 'id/search/?' + stringify(query)).then(({data}) => {
         resolve(data);
       });
     });
