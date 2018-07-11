@@ -15,6 +15,7 @@ export default class App extends React.Component {
         </div>
         <div className="app-content">
           <Route exact strict path="/home" component={Home} />
+          <Route exact strict path="/profile" component={Home} />
         </div>
       </div>
     );

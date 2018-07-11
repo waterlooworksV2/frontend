@@ -14,7 +14,7 @@ instance.interceptors.response.use(response => {
   if (error.response && [400, 401, 404].indexOf(error.response.status)) {
     const token = '';
     if (error.response.status === 401 && token !== null) {
-      // AuthService.logout();
+
     }
     return Promise.reject(error);
   }
@@ -61,4 +61,3 @@ export default class JobService{
     });
   }
 }
-// axios.get('/job', )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import { match } from 'react-router-dom';
+import querystring from 'querystring';
 import './Home.css';
 
 import Navigation from '../../components/Navigation'
@@ -26,15 +26,17 @@ export default class Home extends Component {
 
   onClickPage(pageNo){
     this.setState({pageNo: pageNo});
-    this.getJobIDs();
+    this.props.history.push(this.props.location.pathname + '?page=' + pageNo);
+    this.getJobIDs(pageNo-1);
   }
 
-  getJobIDs() {
-    JobService.getJobIDs({q:this.state.query,page:this.state.pageNo}).then(data => {this.setState({ids: data, id: data[0]});});
+  getJobIDs(pageNo) {
+    JobService.getJobIDs({q:this.state.query, page: pageNo}).then(data => {this.setState({ids: data, id: data[0]});});
   }
 
-  componentDidMount() {
-    this.getJobIDs();
+  componentWillMount() {
+    this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});
+    this.getJobIDs(Number(querystring.parse(this.props.location.search.substring(1)).page)-1);
   }
 
   render() {
@@ -43,7 +45,7 @@ export default class Home extends Component {
         <div className="row">
           <div id="jobContainer" className="col l5 m5 s12">
             {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination onClickPage={this.onClickPage.bind(this)}/>
+            <Pagination currentPage={this.state.pageNo} onClickPage={this.onClickPage.bind(this)}/>
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
             <FullJob id={this.state.id}/>
