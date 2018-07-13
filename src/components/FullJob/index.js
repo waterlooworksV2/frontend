@@ -59,10 +59,12 @@ export default class FullJob extends React.Component {
   }
 
   componentDidMount(){
+    if(this.props.render !== false) {
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data });
         this.setState({ blur: '' });
       });
+    }
   }
 
   componentDidUpdate(prevProps){
