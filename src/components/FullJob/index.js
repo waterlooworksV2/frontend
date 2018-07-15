@@ -68,7 +68,7 @@ export default class FullJob extends React.Component {
   }
 
   componentDidUpdate(prevProps){
-    if(this.props.id !== prevProps.id){
+    if(this.props.id !== prevProps.id && this.props.render !== false){
       setTimeout(() => this.setState({ blur: '' }), 1000)
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data });

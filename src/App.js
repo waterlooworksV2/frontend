@@ -18,6 +18,7 @@ export default class App extends React.Component {
           <Route exact strict path="/home" component={Home} />
           <Route exact strict path="/profile" component={Home} />
           <Route exact strict path="/search" component={Search} />
+          <Route exact path="/" render={() => <Redirect to="/home"/>}/>
         </div>
       </div>
     );

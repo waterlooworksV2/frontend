@@ -28,7 +28,7 @@ export default class Home extends Component {
 
   onClickSearchPage(pageNo){
     this.setState({pageNo: pageNo});
-    this.props.history.push(this.props.location.pathname + '?page=' + pageNo + '&query=' + this.state.query);
+    this.props.history.push(this.props.location.pathname + '?page=' + pageNo + '&q=' + this.state.query);
     this.getJobIDs(pageNo-1);
   }
 
@@ -39,7 +39,7 @@ export default class Home extends Component {
   onSearch(query) {
     this.setState({query: query});
     this.props.history.push(this.props.location.pathname + '?page=' + this.state.pageNo + '&q=' + query);
-    this.getJobIDs(this.state.pageNo);
+    this.getJobIDs(this.state.pageNo-1);
     this.setState({render: true})
   }
 
@@ -47,14 +47,17 @@ export default class Home extends Component {
     if(Number(querystring.parse(this.props.location.search.substring(1)).page)) {
       this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});
     }
+    if(querystring.parse(this.props.location.search.substring(1)).q) {
+      this.setState({query: querystring.parse(this.props.location.search.substring(1)).q});
+    }
   }
 
   render() {
     return (
       <div className="home">
         <div className="row">
-          <SearchBar currentPage={this.state.pageNo} onSearch={this.onSearch.bind(this)}/>
           <div id="jobContainer" className="col l5 m5 s12">
+            <SearchBar query={this.state.query} currentPage={this.state.pageNo} onSearch={this.onSearch.bind(this)}/>
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
             <Pagination currentPage={this.state.pageNo} onClickPage={this.onClickSearchPage.bind(this)}/>
           </div>
