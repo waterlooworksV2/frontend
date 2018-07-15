@@ -1,3 +1,5 @@
+/*global M*/
+
 import React, { Component } from 'react';
 import querystring from 'querystring';
 import './Search.css';
@@ -29,17 +31,25 @@ export default class Home extends Component {
   onClickSearchPage(pageNo){
     this.setState({pageNo: pageNo});
     this.props.history.push(this.props.location.pathname + '?page=' + pageNo + '&q=' + this.state.query);
-    this.getJobIDs(pageNo-1);
+    this.getJobIDs(this.state.query, pageNo-1);
   }
 
-  getJobIDs(pageNo) {
-    JobService.getJobIDs({q:this.state.query, page: pageNo}).then(data => {this.setState({ids: data, id: data[0]});});
+  getJobIDs(query, pageNo) {
+    JobService.getJobIDs({q:query, page: pageNo}).then(data => {
+      if(data.length !== 0){
+        this.setState({ids: data, id: data[0]});
+      }
+      else {
+        M.toast({html: '<span>No results found</span>' , classes: 'rounded', displayLength: 10000})
+        this.setState({ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], id: 1, render: false});
+      }
+    });
   }
 
   onSearch(query) {
     this.setState({query: query});
     this.props.history.push(this.props.location.pathname + '?page=' + this.state.pageNo + '&q=' + query);
-    this.getJobIDs(this.state.pageNo-1);
+    this.getJobIDs(query, this.state.pageNo-1);
     this.setState({render: true})
   }
 
