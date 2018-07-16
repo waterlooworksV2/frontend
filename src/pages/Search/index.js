@@ -1,4 +1,5 @@
-/*global M*/
+/*global M
+global $*/
 
 import React, { Component } from 'react';
 import querystring from 'querystring';
@@ -26,6 +27,10 @@ export default class Home extends Component {
 
   onClickCard(id){
     this.setState({id: id});
+    if(window.innerWidth < 600) {
+      $('.modal').modal();
+      $('#job').modal('open');
+    }
   }
 
   onClickSearchPage(pageNo){
@@ -62,6 +67,15 @@ export default class Home extends Component {
     }
   }
 
+  componentDidMount() {
+    // window.addEventListener("resize", () => {
+    //   if (window.innerWidth < 600) {
+    //     $('.modal').modal();
+    //     $('#job').open();
+    //   }
+    // });
+  }
+
   render() {
     return (
       <div className="home">
@@ -69,10 +83,10 @@ export default class Home extends Component {
           <div id="jobContainer" className="col l5 m5 s12">
             <SearchBar query={this.state.query} currentPage={this.state.pageNo} onSearch={this.onSearch.bind(this)}/>
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination currentPage={this.state.pageNo} onClickPage={this.onClickSearchPage.bind(this)}/>
+            <Pagination render={this.state.render} currentPage={this.state.pageNo} onClickPage={this.onClickSearchPage.bind(this)}/>
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
-            <FullJob id={this.state.id} render={this.state.render}/>
+            <FullJob width={window.innerWidth} id={this.state.id} render={this.state.render}/>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/*global $*/
 import * as React from 'react';
 import './FullJob.css';
 
@@ -65,6 +66,10 @@ export default class FullJob extends React.Component {
         this.setState({ blur: '' });
       });
     }
+    $('.modal').modal();
+    if(window.innerWidth < 600) {
+      $('#job').modal('open');
+    }
   }
 
   componentDidUpdate(prevProps){
@@ -78,29 +83,50 @@ export default class FullJob extends React.Component {
   }
 
   render() {
-    // <!--<div class="hover-up card" style= { {"border-top: 4px solid;-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background-color: #696969 !important;"}}>-->
-    return (
-      <div className="job" style={{"paddingTop":"3%", "marginLeft":"1%"}}>
-        <div>
-            <div className="card">
-                <div className={`card-content box-shadow ${this.state.blur}`}  id="jobdeets" style={{"scrollBehavior": "smooth", "borderTop": "4px solid rgb(199, 196, 253)", "paddingTop": "2%", "paddingRight": "2%", "color": "#999", "position": "fixed", "overflowY": "scroll", "maxHeight": "80%", "marginRight":"2%"}}>
-                    <div className="card-title">
-                        <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
-                    </div>
-                    <p className="secondary">
-                      <span className={`primary ${this.state.blur}`}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
-                      <span className={`primary ${this.state.blur}`}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
-                      <span className={`primary ${this.state.blur}`} id="respo">Responsibilities: </span>
-                      {this.state.job["Job Responsibilities:"]}
-                      <br /><br /><span className={`primary ${this.state.blur}`} id="req">Requirements: </span>
-                      {this.state.job["Required Skills:"] === "" ? "Not Given" : this.state.job["Required Skills:"]}
-                      <br /><br /><span className={`primary ${this.state.blur}`} id="desc">Description: </span>
-                      {this.state.job["Job Summary:"]}
-                      </p>
-                </div>
-            </div>
-        </div>
-      </div>
-    );
+    if(this.props.width < 600) {
+      return (<div id="job" className="modal modal-fixed-footer">
+          <div className="modal-content">
+            <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
+            <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999"}}>
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Responsibilities: </span>
+              {this.state.job["Job Responsibilities:"]}
+              <br /><br /><span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Requirements: </span>
+              {this.state.job["Required Skills:"] === "" ? "Not Given" : this.state.job["Required Skills:"]}
+              <br /><br /><span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Description: </span>
+              {this.state.job["Job Summary:"]}
+            </p>
+          </div>
+          <div className="modal-footer">
+            <a href="#!" className="modal-action modal-close waves-effect btn-flat">Close</a>
+         </div>
+       </div>);
+     }
+     else {
+       return (
+         <div className="job hide-on-small-only" style={{"paddingTop":"3%", "marginLeft":"1%"}}>
+           <div>
+               <div className="card">
+                   <div className={`card-content box-shadow ${this.state.blur}`}  id="jobdeets" style={{"scrollBehavior": "smooth", "borderTop": "4px solid rgb(199, 196, 253)", "paddingTop": "2%", "paddingRight": "2%", "color": "#999", "position": "fixed", "overflowY": "scroll", "maxHeight": "80%", "marginRight":"2%"}}>
+                       <div className="card-title">
+                           <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
+                       </div>
+                       <p className="secondary">
+                         <span className={`primary ${this.state.blur}`}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
+                         <span className={`primary ${this.state.blur}`}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
+                         <span className={`primary ${this.state.blur}`} id="respo">Responsibilities: </span>
+                         {this.state.job["Job Responsibilities:"]}
+                         <br /><br /><span className={`primary ${this.state.blur}`} id="req">Requirements: </span>
+                         {this.state.job["Required Skills:"] === "" ? "Not Given" : this.state.job["Required Skills:"]}
+                         <br /><br /><span className={`primary ${this.state.blur}`} id="desc">Description: </span>
+                         {this.state.job["Job Summary:"]}
+                       </p>
+                   </div>
+               </div>
+           </div>
+         </div>
+       );
+     }
   }
 }

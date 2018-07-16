@@ -1,3 +1,4 @@
+/*global $*/
 import React, { Component } from 'react';
 import querystring from 'querystring';
 import './Home.css';
@@ -48,7 +49,7 @@ export default class Home extends Component {
             <Pagination currentPage={this.state.pageNo} onClickPage={this.onClickPage.bind(this)}/>
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
-            <FullJob id={this.state.id}/>
+            <FullJob width={window.innerWidth} id={this.state.id}/>
           </div>
         </div>
       </div>

@@ -25,18 +25,23 @@ export default class Pagination extends React.Component {
   }
 
   render() {
-    var lis = []
-    {if(this.state.currentPage > 1) {
-      lis.push(<a href="#" key={this.state.currentPage-1}><li onClick={() => this.onClickPage(this.state.currentPage-1)} className="inactive">{this.state.currentPage-1}</li></a>)
-    }}
-    lis.push(<a href="#" key={this.state.currentPage}><li className="active">{this.state.currentPage}</li></a>)
-    {if(this.state.currentPage < this.state.totalPages) {
-      lis.push(<a href="#" key={this.state.currentPage+1}><li onClick={() => this.onClickPage(this.state.currentPage+1)} className="inactive">{this.state.currentPage+1}</li></a>)
-    }}
-    return (
-      <ul className="pagination center-align" style={{"width":"100%"}}>
-        {lis}
-      </ul>
-    );
+    if(this.props.render !== false) {
+      var lis = []
+      {if(this.state.currentPage > 1) {
+        lis.push(<a href="#" key={this.state.currentPage-1}><li onClick={() => this.onClickPage(this.state.currentPage-1)} className="inactive">{this.state.currentPage-1}</li></a>)
+      }}
+      lis.push(<a href="#" key={this.state.currentPage}><li className="active">{this.state.currentPage}</li></a>)
+      {if(this.state.currentPage < this.state.totalPages) {
+        lis.push(<a href="#" key={this.state.currentPage+1}><li onClick={() => this.onClickPage(this.state.currentPage+1)} className="inactive">{this.state.currentPage+1}</li></a>)
+      }}
+      return (
+        <ul className="pagination center-align" style={{"width":"100%"}}>
+          {lis}
+        </ul>
+      );
+    }
+    else {
+      return <div />
+    }
   }
 }
