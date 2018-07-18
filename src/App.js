@@ -8,7 +8,6 @@ import Search from './pages/Search'
 
 export default class App extends React.Component {
   render() {
-    const { url } = this.props.match;
     return (
       <div>
         <div className="app">
