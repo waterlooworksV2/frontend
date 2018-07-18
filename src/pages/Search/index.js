@@ -56,6 +56,7 @@ export default class Home extends Component {
     this.setState({query: query});
     this.props.history.push(this.props.location.pathname + '?page=' + this.state.pageNo + '&q=' + query);
     this.getJobIDs(query, 0);
+    this.setState({pageNo: 1})
     this.setState({render: true})
   }
 
