@@ -21,13 +21,14 @@ export default class Home extends Component {
       ids: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       query: '',
       pageNo: 1,
+      total: 1,
       render: false
     }
   }
 
   onClickCard(id){
     this.setState({id: id});
-    if(window.innerWidth < 600) {
+    if(window.innerWidth < 600 && this.state.render) {
       $('.modal').modal();
       $('#job').modal('open');
     }
@@ -42,7 +43,7 @@ export default class Home extends Component {
   getJobIDs(query, pageNo) {
     JobService.getJobIDs({q:query, page: pageNo}).then(data => {
       if(data.length !== 0){
-        this.setState({ids: data, id: data[0]});
+        this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"]});
       }
       else {
         M.toast({html: '<span>No results found</span>' , classes: 'rounded', displayLength: 10000})
@@ -83,7 +84,7 @@ export default class Home extends Component {
           <div id="jobContainer" className="col l5 m5 s12">
             <SearchBar query={this.state.query} currentPage={this.state.pageNo} onSearch={this.onSearch.bind(this)}/>
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination render={this.state.render} currentPage={this.state.pageNo} onClickPage={this.onClickSearchPage.bind(this)}/>
+            <Pagination render={this.state.render} currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickSearchPage.bind(this)}/>
           </div>
           <div className="col l7 m7 offset-l5 offset-m5">
             <FullJob width={window.innerWidth} id={this.state.id} render={this.state.render}/>
