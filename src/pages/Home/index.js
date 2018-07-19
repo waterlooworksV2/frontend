@@ -30,6 +30,7 @@ export default class Home extends Component {
     this.setState({pageNo: pageNo});
     this.props.history.push(this.props.location.pathname + '?page=' + pageNo);
     this.getJobIDs(pageNo-1);
+    window.scrollTo(0, 0);
   }
 
   getJobIDs(pageNo) {

@@ -23,11 +23,11 @@ export default class Pagination extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps){
-    if(this.props.currentPage !== prevProps.currentPage) {
-      this.setState({currentPage: this.props.currentPage})
-    }
-  }
+  // componentDidUpdate(prevProps){
+  //   if(this.props.currentPage !== prevProps.currentPage) {
+  //     this.setState({currentPage: this.props.currentPage})
+  //   }
+  // }
 
   render() {
     if(this.props.render !== false) {

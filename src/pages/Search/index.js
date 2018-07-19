@@ -38,11 +38,12 @@ export default class Home extends Component {
     this.setState({pageNo: pageNo});
     this.props.history.push(this.props.location.pathname + '?page=' + pageNo + '&q=' + this.state.query);
     this.getJobIDs(this.state.query, pageNo-1);
+    window.scrollTo(0, 0);
   }
 
   getJobIDs(query, pageNo) {
     JobService.getJobIDs({q:query, page: pageNo}).then(data => {
-      if(data.length !== 0){
+      if(data["ids"].length !== 0){
         this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"]});
       }
       else {

@@ -93,7 +93,8 @@ export default class FullJob extends React.Component {
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Responsibilities: </span>
               {this.state.job["Job Responsibilities:"]}
               <br /><br /><span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Requirements: </span>
-              {this.state.job["Required Skills:"] === "" ? "Not Given" : this.state.job["Required Skills:"]}
+              {(this.state.job["Required Skills:"] === "" && this.state.job["Required skills:"] === "") ? "Not Given" : (this.state.job["Required Skills:"]+this.state.job["Required skills:"])}
+
               <br /><br /><span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Description: </span>
               {this.state.job["Job Summary:"]}
             </p>
