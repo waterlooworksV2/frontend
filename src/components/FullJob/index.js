@@ -87,7 +87,7 @@ export default class FullJob extends React.Component {
       return (<div id="job" className="modal modal-fixed-footer">
           <div className="modal-content">
             <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
-            <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999"}}>
+            <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999", "white-space": "pre-line", "word-wrap": "break-word"}}>
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Responsibilities: </span>
