@@ -1,0 +1,13 @@
+$theme: #E7549E;
+$secondary: #66C7C3;
+$background: #fafafa;
+
+$font: 'Roboto', sans-serif;
+$font-secondary: 'routen';
+
+$page-width: 900px;
+
+@mixin tab-title-padding {
+  padding-left: 3.5rem;
+  padding-top: 3.5rem;
+};
