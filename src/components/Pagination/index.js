@@ -31,7 +31,7 @@ export default class Pagination extends React.Component {
 
   render() {
     if(this.props.render !== false) {
-      var lis = []
+      let lis = []
       if (this.state.currentPage > 2) {
         lis.push(<a href="#" key={".1"}><li onClick={() => this.onClickPage(1)} className="inactive">1</li></a>);
       }

@@ -4,8 +4,6 @@ import './FullJob.css';
 
 import JobService from '../../services/JobService.js'
 
-import { Redirect, NavLink } from 'react-router-dom';
-
 export default class FullJob extends React.Component {
 
   constructor(props){
@@ -63,8 +61,7 @@ export default class FullJob extends React.Component {
     $('.modal').modal();
     if(this.props.render !== false) {
       this.getJob(this.props.id).then(data => {
-        this.setState({ job: data });
-        this.setState({ blur: '' });
+        this.setState({ job: data, blur: ''  });
       });
       if(window.innerWidth < 600) {
         $('#job').modal('open');
@@ -76,8 +73,7 @@ export default class FullJob extends React.Component {
     if(this.props.id !== prevProps.id && this.props.render !== false){
       setTimeout(() => this.setState({ blur: '' }), 1000)
       this.getJob(this.props.id).then(data => {
-        this.setState({ job: data });
-        this.setState({ blur: '' });
+        this.setState({ job: data, blur: '' });
       });
     }
   }

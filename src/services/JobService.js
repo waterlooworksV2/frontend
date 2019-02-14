@@ -60,4 +60,12 @@ export default class JobService{
       });
     });
   }
+
+  static filters = (query) => {
+      return new Promise((resolve, reject) => {
+          instance.get(baseURL + 'filter/' + String(query)).then(({data}) => {
+              resolve(data);
+          });
+      });
+  }
 }
