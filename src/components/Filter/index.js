@@ -1,9 +1,7 @@
 /*global $*/
 import * as React from 'react';
+import Select from 'react-select';
 import './Filter.css';
-
-import JobService from '../../services/JobService.js'
-import Card from "../Card";
 
 
 export default class Filter extends React.Component {
@@ -11,83 +9,71 @@ export default class Filter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      cities:[],
-      countries:[],
-      blur:'blur'
+      cities:this.props.cities,
+      countries:this.props.countries,
+      selectedCities: this.props.selectedCities,
+      selectedCountries: this.props.selectedCountries,
     }
   }
 
-  componentDidUpdate(nextProps, nextState){
-    console.log(nextProps);
-      $('select').formSelect({classes:'sssss'});
+  onCityChange(event, t){
+    this.setState({selectedCities: event});
   }
 
+  onCountryChange(event, t){
+    this.setState({selectedCountries: event});
+  }
 
   render() {
-    // if(this.props.render !== false){
-        let cities = [];
+    let cities = [];
 
-        this.props.cities.map(function(id, i){
-          if(id["_id"] !== ""){
-              cities.push(
-                  <option selected key={id["_id"]} id={id["_id"]} value={id["_id"]}>
-                      {id["_id"]}-
-                      {id["count"]}
-                  </option>
-              )}
-          });
+    this.props.cities.map(function(id, i){
+      if(id["_id"] !== ""){
+          cities.push({value: id["_id"], label:id["_id"] }
+          )}
+      });
+
+    let countries = [];
 
 
+    this.props.countries.map(function(id, i){
+        if(id["_id"] !== ""){
+          countries.push({value: id["_id"], label:id["_id"] }
+          )}
+        });
 
-        let countries = [];
-
-
-        this.props.countries.map(function(id, i){
-            if(id["_id"] !== ""){
-              countries.push(
-                  <option selected key={id["_id"]} id={id["_id"]} value={id["_id"]}>
-                      {id["_id"]}-
-                      {id["count"]}
-                  </option>
-              )}
-            });
-
-
-
-        return (
-            <div className="filter row">
-                {/*<a id='cities-btn' className={`dropdown-trigger btn`} href='#' data-target='cities'>Cities</a>*/}
-                <div className="input-field col s12">
-                    <select multiple>
-                        <option value="" disabled selected key={"choose option"}>Cities</option>
-                      {cities}
-                    </select>
-                </div>
-                <div className="input-field col s12">
-                    <select multiple>
-                        <option value="" disabled selected key={"choose option"}>Countries</option>
-                        {countries}
-                    </select>
-                </div>
-            </div>
-
-        )
-    // }
-    // else{
-    //
-    //     return (<div>
-    //         <a id='cities-btn' className={`dropdown-trigger btn`} href='#' data-target='cities'>Cities</a>
-    //         <ul id='cities' className={`dropdown-content`}>
-    //         </ul>
-    //         <a id='countries-btn' className={`dropdown-trigger btn`} href='#' data-target='countries'>Countries</a>
-    //         <ul id='countries' className={`${this.state.blur} dropdown-content`}>
-    //         </ul>
-    //     </div>)
-    // }
+    return (
+      <div className='filter'>
+        <Select
+          className='cities'
+          onChange={this.onCityChange.bind(this)}
+          options={cities}
+          isMulti={true}
+          closeMenuOnSelect={false}
+          hideSelectedOptions={true}
+        />
+        <Select
+            className="countries"
+            onChange={this.onCountryChange.bind(this)}
+            options={countries}
+            isMulti={true}
+            closeMenuOnSelect={false}
+            hideSelectedOptions={true}
+          />
+          <div class="switch">
+            <label>
+              Cover Letter<br />
+              <input type="checkbox"></input>
+              <span class="lever"></span>
+              Required
+            </label>
+          </div>
+      </div>
+    )
   }
 }
 
 Filter.defaultProps = {
-    cities: ['lmao', 'lmao2'],
-    countries: ['Lmao', 'Lmao2'],
+    cities: [{"_id":'lmao', "count":0}, {"_id":'lmao2', "count":2}],
+    countries: [{"_id":'Lmao', "count":3}, {"_id":'Lmao2', "count":4}],
 }

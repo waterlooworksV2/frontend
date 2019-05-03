@@ -30,8 +30,7 @@ export default class FullJob extends React.Component {
         "Job Category (NOC):" : "2173 Software Engineers and Designers",
         "Job Location (if exact address unknown or multiple locations):" : "",
         "Job Posting Status:" : "s",
-        "Job Responsibilities:" : "These are totally fake job reponsibilities \n I don't expect you to know even half of the stuff when you come here. Peace Out",
-        "Job Summary:" : "This is a totally fake job summary \n I don't expect you to know even half of the stuff when you come here. Peace Out",
+        "Job Responsibilities:" : "These are totally fake job reponsibilities \n I don't expect Morbi laoreet volutpat nunc, et pretium risus congue eget. Proin blandit lobortis dui, ut dapibus neque. Donec eu nibh vel justo suscipit vehicula egestas sed dui. Maecenas posuere laoreet neque, eget tristique arcu semper et. Vivamus malesuada nulla vel gravida laoreet. Integer et magna et dolor sollicitudin maximus.",
         "Job Title:" : "Fake Job",
         "Job Type:" : "Co-op Main",
         "Level:" : ["Intermediate↵Senior", "Intermediate", "Senior"],
@@ -81,9 +80,9 @@ export default class FullJob extends React.Component {
   render() {
     if(this.props.width < 600) {
       return (<div id="job" className="modal modal-fixed-footer">
-          <div className="modal-content">
+          <div className="modal-content flow-text">
             <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
-            <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999", "white-space": "pre-line", "word-wrap": "break-word"}}>
+            <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999", "whiteSpace": "pre-line", "wordWrap": "break-word"}}>
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Responsibilities: </span>

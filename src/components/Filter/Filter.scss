@@ -1,6 +1,18 @@
 .filter {
   font-family: productSans, sans-serif;
-  margin-top: 3%;
-  margin-left: 1%;
-  margin-bottom: 10%;
+  padding-top: 3%;
+  // margin-left: 1%;
+  // margin-bottom: 10%;
+  // position: sticky;
+  // display: block;
+  // z-index: 9;
+  //position: -webkit-sticky;
+  .cities {
+    margin-top:3%;
+  }
+  .countries{
+    margin-top:5%;
+  }
+  .switch label{
+  }
 }

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import querystring from 'querystring';
 import './Home.css';
 
-import Navigation from '../../components/Navigation'
 import Card from '../../components/Card'
 import Filter from '../../components/Filter'
 import FullJob from '../../components/FullJob'
@@ -20,7 +19,11 @@ export default class Home extends Component {
       query: '',
       pageNo: 1,
       total: 1,
-      render: false
+      render: false,
+      cities: [],
+      countries: [],
+      selectedCountries: [],
+      selectedCities: []
     }
   }
 
@@ -35,7 +38,8 @@ export default class Home extends Component {
     window.scrollTo(0, 0);
   }
 
-  getFilters() {
+
+  getFilters(){
       JobService.filters('city').then(data => {
           this.setState({
               cities: data
@@ -46,10 +50,28 @@ export default class Home extends Component {
               countries: data,
               render:true
           });
-      });
+          return
+      })
+      // .then(data => {
+      //     let city, country;
+      //     let selectedCities = [];
+      //     for(city of this.state.cities){
+      //         selectedCities.push(city["_id"]);
+      //     };
+      //     let selectedCountries = [];
+      //     for(country of this.state.countries){
+      //         selectedCountries.push(country["_id"]);
+      //     };
+      //     this.setState({
+      //         selectedCountries: selectedCountries,
+      //         selectedCities: selectedCities
+      //     });
+      //     // console.log(this.state)
+      // });
+
   }
 
-  getJobIDs(pageNo) {
+  getJobIDs(pageNo){
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
           this.setState({
@@ -71,12 +93,21 @@ export default class Home extends Component {
     return (
       <div className="home">
         <div className="row">
-          <div id="jobContainer" className="col l5 m5 s12">
-            <Filter cities={this.state.cities} countries={this.state.countries} render={this.state.render}/>
-            {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
+          <div id="leftColumn" className="col l5 m5 s12">
+            <div id="filterContainer">
+              <Filter
+                cities={this.state.cities}
+                countries={this.state.countries}
+                render={this.state.render}
+                // onFilterChange={this.onCityChange.bind(this)}
+              />
+            </div>
+            <div id="jobContainer" className="col l5 m5 s12">
+              {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
+              <Pagination currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
+            </div>
           </div>
-          <div className="col l7 m7 offset-l5 offset-m5">
+          <div id="rightColumn" className="col l7 m7">
             <FullJob width={window.innerWidth} id={this.state.id}/>
           </div>
         </div>
