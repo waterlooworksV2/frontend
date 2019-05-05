@@ -57,20 +57,17 @@ export default class FullJob extends React.Component {
   }
 
   componentDidMount(){
-    $('.modal').modal();
     if(this.props.render !== false) {
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data, blur: ''  });
       });
-      if(window.innerWidth < 600) {
-        $('#job').modal('open');
-      }
     }
   }
 
   componentDidUpdate(prevProps){
+    this.setState({blur: 'blur'});
     if(this.props.id !== prevProps.id && this.props.render !== false){
-      setTimeout(() => this.setState({ blur: '' }), 1000)
+      // setTimeout(() => this.setState({ blur: '' }), 1000)
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data, blur: '' });
       });

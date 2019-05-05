@@ -29,6 +29,10 @@ export default class Home extends Component {
 
   onClickCard(id){
     this.setState({id: id});
+    if(window.innerWidth < 600) {
+      $('.modal').modal();
+      $('#job').modal('open');
+    }
   }
 
   onClickPage(pageNo){
