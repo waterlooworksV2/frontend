@@ -60,7 +60,7 @@ export default class Filter extends React.Component {
             closeMenuOnSelect={false}
             hideSelectedOptions={true}
           />
-          <div class="switch">
+          <div className="switch">
             <label>
               Cover Letter<br />
               <input type="checkbox"></input>
