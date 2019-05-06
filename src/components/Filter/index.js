@@ -64,7 +64,7 @@ export default class Filter extends React.Component {
             <label>
               Cover Letter<br />
               <input type="checkbox"></input>
-              <span class="lever"></span>
+              <span className="lever"></span>
               Required
             </label>
           </div>
