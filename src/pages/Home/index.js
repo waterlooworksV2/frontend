@@ -23,7 +23,9 @@ export default class Home extends Component {
       cities: [],
       countries: [],
       selectedCountries: [],
-      selectedCities: []
+      selectedCities: [],
+      prevScrollpos: 0,
+      visibleFilter: ''
     }
   }
 
@@ -75,6 +77,31 @@ export default class Home extends Component {
 
   }
 
+  componentDidMount(){
+    document.getElementById("jobContainer").addEventListener("scroll", this.handleScroll);
+  }
+
+  componentWillUnmount(){
+    document.getElementById("jobContainer").removeEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const prevScrollpos = this.state.prevScrollpos;
+
+    const currentScrollPos = $('#jobContainer').scrollTop();
+    let visible='';
+    if(prevScrollpos > currentScrollPos){
+      visible = '';
+    } else{
+      visible = 'hide';
+    }
+
+    this.setState({
+      prevScrollpos: currentScrollPos,
+      visibleFilter: visible
+    });
+  };
+
   getJobIDs(pageNo){
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
@@ -100,6 +127,7 @@ export default class Home extends Component {
           <div id="leftColumn" className="col l5 m5 s12">
             <div id="filterContainer">
               <Filter
+                visible={this.state.visibleFilter}
                 cities={this.state.cities}
                 countries={this.state.countries}
                 render={this.state.render}
@@ -107,8 +135,9 @@ export default class Home extends Component {
               />
             </div>
             <div id="jobContainer" className="col l5 m5 s12">
+              <Pagination prefix="top" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
               {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-              <Pagination currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
+              <Pagination prefix="bot" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
             </div>
           </div>
           <div id="rightColumn" className="col l7 m7">

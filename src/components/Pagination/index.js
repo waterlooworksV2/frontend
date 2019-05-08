@@ -31,25 +31,26 @@ export default class Pagination extends React.Component {
 
   render() {
     if(this.props.render !== false) {
+      let pre = this.props.pre;
       let lis = []
       if (this.state.currentPage > 2) {
-        lis.push(<a href="" key={".1"}><li onClick={() => this.onClickPage(1)} className="inactive">1</li></a>);
+        lis.push(<a href="" key={pre+".1"}><li onClick={() => this.onClickPage(1)} className="inactive">1</li></a>);
       }
       if (this.state.currentPage >= 4) {
-        lis.push(<a href="" key={"...1"}><li className="inactive">....</li></a>);
+        lis.push(<a href="" key={pre+"...1"}><li className="inactive">....</li></a>);
       }
       if(this.state.currentPage > 1) {
-        lis.push(<a href="" key={String(this.state.currentPage-1)}><li onClick={() => this.onClickPage(this.state.currentPage-1)} className="inactive">{this.state.currentPage-1}</li></a>)
+        lis.push(<a href="" key={pre+String(this.state.currentPage-1)}><li onClick={() => this.onClickPage(this.state.currentPage-1)} className="inactive">{this.state.currentPage-1}</li></a>)
       }
-      lis.push(<a href="" key={String(this.state.currentPage)}><li className="active">{this.state.currentPage}</li></a>)
+      lis.push(<a href="" key={pre+String(this.state.currentPage)}><li className="active">{this.state.currentPage}</li></a>)
       if(this.state.currentPage+1 < this.props.totalPages) {
-        lis.push(<a href="" key={String(this.state.currentPage+1)}><li onClick={() => this.onClickPage(this.state.currentPage+1)} className="inactive">{this.state.currentPage+1}</li></a>)
+        lis.push(<a href="" key={pre+String(this.state.currentPage+1)}><li onClick={() => this.onClickPage(this.state.currentPage+1)} className="inactive">{this.state.currentPage+1}</li></a>)
       }
       if(this.state.currentPage + 2 < this.props.totalPages) {
-        lis.push(<a href="" key={"...2"}><li className="inactive">....</li></a>);
+        lis.push(<a href="" key={pre+"...2"}><li className="inactive">....</li></a>);
       }
       if(this.state.currentPage !== this.props.totalPages) {
-        lis.push(<a href="" key={String(this.props.totalPages)}><li onClick={() => this.onClickPage(this.props.totalPages)} className="inactive">{this.props.totalPages}</li></a>);
+        lis.push(<a href="" key={pre+String(this.props.totalPages)}><li onClick={() => this.onClickPage(this.props.totalPages)} className="inactive">{this.props.totalPages}</li></a>);
       }
 
       return (

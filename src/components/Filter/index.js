@@ -43,7 +43,7 @@ export default class Filter extends React.Component {
         });
 
     return (
-      <div className='filter'>
+      <div className={"filter " + this.props.visible}>
         <Select
           className='cities'
           onChange={this.onCityChange.bind(this)}
