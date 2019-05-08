@@ -93,7 +93,7 @@ export default class Home extends Component {
     if(prevScrollpos > currentScrollPos){
       visible = '';
     } else{
-      visible = 'hide';
+      visible = '';
     }
 
     this.setState({
