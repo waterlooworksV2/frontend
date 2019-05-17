@@ -5,10 +5,7 @@ import './Card.css';
 
 import JobService from '../../services/JobService.js'
 
-import { Redirect, NavLink } from 'react-router-dom';
-
 export default class Card extends React.Component {
-
   constructor(props){
     super(props);
     this.state = {
@@ -26,30 +23,37 @@ export default class Card extends React.Component {
     return JobService.getPreviewJobID(id)
   }
 
+  huegenerator = () => {
+    return 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
+  }
+
   componentDidMount(){
-      $('.card').each(function () {
-          var hue = 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
-          $(this).css("border-top-color", hue);
-      });
-      if(this.props.render !== false) {
+    let huegenerator = this.huegenerator;
+    $('.card').each(function () {
+        $(this).css("border-top-color", huegenerator());
+    });
+    if(this.props.render !== false) {
         this.getJob(this.props.id).then(data => {
-          this.setState({ job: data });
-          this.setState({ blur: '' });
+            this.setState({ 
+            job: data, 
+            blur: '' 
+            });
         });
-      }
+    }
   }
 
   render() {
-    return (<a href={'#'+this.props.id} className="jobCard" onClick={() => this.props.onClickCard(this.props.id)}>
-              <div className="hover-up card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
-                <div className="box-shadow">
-                  <div className="project-box flow-text">
-                    <p className={`primary ${this.state.blur}`}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
-                    <p className={`secondary ${this.state.blur}`}>{this.state.job["Job Summary:"]}</p>
-                  </div>
-                </div>
-              </div>
-            </a>
+    return (
+      <a href={'#'+this.props.id} className="jobCard" onClick={() => this.props.onClickCard(this.props.id)}>
+        <div className="hover-up card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
+          <div className="box-shadow">
+            <div className="project-box flow-text">
+              <p className={`primary ${this.state.blur}`}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
+              <p className={`secondary ${this.state.blur}`}>{this.state.job["Job Summary:"]}</p>
+            </div>
+          </div>
+        </div>
+      </a>
     );
   }
 }
