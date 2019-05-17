@@ -6,7 +6,6 @@ import './Card.css';
 import JobService from '../../services/JobService.js'
 
 export default class Card extends React.Component {
-
   constructor(props){
     super(props);
     this.state = {
@@ -30,7 +29,7 @@ export default class Card extends React.Component {
 
   componentDidMount(){
       $('.card').each(function () {
-          $(this).css("border-top-color", this.huegenerator());
+          $(this).css("border-top-color", huegenerator());
       });
       if(this.props.render !== false) {
         this.getJob(this.props.id).then(data => {
