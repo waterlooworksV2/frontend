@@ -5,8 +5,6 @@ import './Card.css';
 
 import JobService from '../../services/JobService.js'
 
-import { Redirect, NavLink } from 'react-router-dom';
-
 export default class Card extends React.Component {
 
   constructor(props){
