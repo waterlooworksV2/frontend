@@ -106,13 +106,26 @@ export default class Home extends Component {
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
           this.setState({
-              ids: data["ids"], id: data["ids"][0],
+              ids: data["ids"],
+              id: data["ids"][0],
               total: data["pages"]
           });
         });
   }
 
-
+  // shouldComponentUpdate(nextProps, nextState){
+  //   console.log(this.props, nextProps, nextState, this.state)
+  //   if(nextProps !== this.props){
+  //     return true;
+  //   }
+  //   for(var index in nextState) {
+  //     console.log(index, this.state[index], nextState[index])
+  //     if(this.state[index] !== nextState[index] && index !== 'pageNo'){
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
   componentWillMount() {
     this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});

@@ -96,7 +96,7 @@ export default class FullJob extends React.Component {
      }
      else {
        return (
-         <div className="job hide-on-small-only" style={{"paddingTop":"3%", "marginLeft":"1%"}}>
+         <div className="job hide-on-small-only">
            <div>
                <div className="card">
                    <div className={`card-content box-shadow ${this.state.blur}`}  id="jobdeets" style={{"scrollBehavior": "smooth", "borderTop": "4px solid rgb(199, 196, 253)", "paddingTop": "2%", "paddingRight": "2%", "color": "#999", "position": "fixed", "overflowY": "scroll", "maxHeight": "80%", "marginRight":"2%"}}>
