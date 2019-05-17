@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 
-export const baseURL = 'http://'+window.location.hostname+':9000/v1/';
+export const baseURL = 'https://backend.'+window.location.hostname+'/v1/';
 console.log(baseURL)
 var instance = axios.create({
   baseURL: baseURL,
