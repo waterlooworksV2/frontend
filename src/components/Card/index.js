@@ -28,17 +28,18 @@ export default class Card extends React.Component {
   }
 
   componentDidMount(){
-      $('.card').each(function () {
-          $(this).css("border-top-color", huegenerator());
-      });
-      if(this.props.render !== false) {
+    let huegenerator = this.huegenerator;
+    $('.card').each(function () {
+        $(this).css("border-top-color", huegenerator());
+    });
+    if(this.props.render !== false) {
         this.getJob(this.props.id).then(data => {
-          this.setState({ 
+            this.setState({ 
             job: data, 
             blur: '' 
-          });
+            });
         });
-      }
+    }
   }
 
   render() {
