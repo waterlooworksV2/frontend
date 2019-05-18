@@ -2,6 +2,7 @@
 global $*/
 
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import querystring from 'querystring';
 import './Search.css';
 
@@ -22,7 +23,8 @@ export default class List extends Component {
       listNo: 0,
       pageNo: 1,
       total: 1,
-      render: false
+      render: false,
+      listName: ''
     }
   }
 
@@ -36,7 +38,7 @@ export default class List extends Component {
 
   onClickListPage(pageNo){
     this.setState({pageNo: pageNo});
-    this.props.history.push(this.props.location.pathname + '?page=' + pageNo + '&q=' + this.state.listNo);
+    this.props.history.push(this.props.location.pathname + '?page=' + pageNo);
     this.getList(this.state.listNo, pageNo);
     window.scrollTo(0, 0);
   }
@@ -44,7 +46,7 @@ export default class List extends Component {
   getList(listNo, pageNo) {
     JobService.getList(listNo, {page: pageNo}).then(data => {
       if(data["ids"].length !== 0){
-        this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"], render: true});
+        this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"], render: true, title: data["listName"]});
       }
       else {
         M.toast({html: '<span>No results found</span>' , classes: 'rounded', displayLength: 10000})
@@ -54,12 +56,21 @@ export default class List extends Component {
   }
 
   componentWillMount() {
-    if(Number(querystring.parse(this.props.location.search.substring(1)).page)) {
-      this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});
+    if(String(querystring.parse(this.props.location.search.substring(1)).q)) {
+      this.setState({listNo: Number(querystring.parse(this.props.location.search.substring(1)).q)});
+    }
+    if(this.props.match.params.listNo){
+      this.setState({listNo:this.props.match.params.listNo})
     }
   }
 
   componentDidMount(){
+    console.log(this.props, querystring.parse(this.props.location.search.substring(1)).q);
+    if(Number(querystring.parse(this.props.location.search.substring(1)).q) >= 0) {
+      this.setState({listNo: Number(querystring.parse(this.props.location.search.substring(1)).q)});
+      console.log(this.props.location.pathname +"/" + String(querystring.parse(this.props.location.search.substring(1)).q) + '?page=' + this.state.pageNo)
+      this.props.history.push(this.props.location.pathname +"/" + String(querystring.parse(this.props.location.search.substring(1)).q) + '?page=' + this.state.pageNo);
+    }
     this.getList(this.state.listNo, this.state.pageNo);
   }
 
@@ -67,12 +78,25 @@ export default class List extends Component {
     return (
       <div className="home">
         <div className="row">
-          <div id="jobContainer" className="col l5 m5 s12">
+        <div id="leftColumn" className="col l5 m5 s12">
+          <div id="titleContainer">
+            <p
+                style={{"color":"rgb(153, 153, 153)",
+                        "fontFamily": "productSans, sans-serif",
+                        "fontSize": "30px",
+                        "paddingBottom":"20px",
+                        "marginBottom":"5%",
+                      }}>
+                {this.state.title}
+            </p>
+          </div>
+          </div>
+          <div id="jobContainer" className="col l5 m5 s12" style={{"paddingTop":"50px"}}>
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
             <Pagination render={this.state.render} currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickListPage.bind(this)}/>
           </div>
-          <div className="col l7 m7 offset-l5 offset-m5">
-          <FullJob width={window.innerWidth} id={this.state.id} render={this.state.render}/>
+          <div id="rightColumn" className="col l7 m7">
+            <FullJob width={window.innerWidth} id={this.state.id} render={this.state.render}/>
           </div>
         </div>
       </div>
