@@ -37,6 +37,7 @@ export default class List extends Component {
   }
 
   onClickListPage(pageNo){
+    console.log(pageNo)
     this.setState({pageNo: pageNo});
     this.props.history.push(this.props.location.pathname + '?page=' + pageNo);
     this.getList(this.state.listNo, pageNo);
@@ -46,7 +47,13 @@ export default class List extends Component {
   getList(listNo, pageNo) {
     JobService.getList(listNo, {page: pageNo}).then(data => {
       if(data["ids"].length !== 0){
-        this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"], render: true, title: data["listName"]});
+        this.setState({
+          ids: data["ids"],
+          id: data["ids"][0],
+          total: data["pages"],
+          render: true, title:
+          data["listName"]
+        });
       }
       else {
         M.toast({html: '<span>No results found</span>' , classes: 'rounded', displayLength: 10000})
@@ -56,8 +63,9 @@ export default class List extends Component {
   }
 
   componentWillMount() {
-    if(String(querystring.parse(this.props.location.search.substring(1)).q)) {
-      this.setState({listNo: Number(querystring.parse(this.props.location.search.substring(1)).q)});
+    if(Number(querystring.parse(this.props.location.search.substring(1)).page) >= 0) {
+      console.log(querystring.parse(this.props.location.search.substring(1)).pageNo)
+      this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});
     }
     if(this.props.match.params.listNo){
       this.setState({listNo:this.props.match.params.listNo})
@@ -65,9 +73,12 @@ export default class List extends Component {
   }
 
   componentDidMount(){
-    if(Number(querystring.parse(this.props.location.search.substring(1)).q) >= 0) {
+    if(String(querystring.parse(this.props.location.search.substring(1)).q) !== 'undefined') {
       this.setState({listNo: Number(querystring.parse(this.props.location.search.substring(1)).q)});
       this.props.history.push(this.props.location.pathname +"/" + String(querystring.parse(this.props.location.search.substring(1)).q) + '?page=' + this.state.pageNo);
+    }
+    if(Number(querystring.parse(this.props.location.search.substring(1)).page) >= 0) {
+      this.setState({pageNo: Number(querystring.parse(this.props.location.search.substring(1)).page)});
     }
     this.getList(this.state.listNo, this.state.pageNo);
   }
@@ -86,7 +97,12 @@ export default class List extends Component {
           </div>
           <div id="jobContainer" className="col l5 m5 s12">
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
-            <Pagination render={this.state.render} currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickListPage.bind(this)}/>
+            <Pagination
+              pre={"list"}
+              render={this.state.render}
+              currentPage={this.state.pageNo}
+              totalPages={this.state.total}
+              onClickPage={this.onClickListPage.bind(this)}/>
           </div>
           </div>
           <div id="rightColumn" className="col l7 m7">
