@@ -4,7 +4,7 @@ global $*/
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom'
 import querystring from 'querystring';
-import './Search.css';
+import './List.css';
 
 import Navigation from '../../components/Navigation'
 import Card from '../../components/Card'
@@ -79,21 +79,17 @@ export default class List extends Component {
       <div className="home">
         <div className="row">
         <div id="leftColumn" className="col l5 m5 s12">
-          <div id="titleContainer">
-            <p
-                style={{"color":"rgb(153, 153, 153)",
-                        "fontFamily": "productSans, sans-serif",
-                        "fontSize": "30px",
-                        "paddingBottom":"20px",
-                        "marginBottom":"5%",
-                      }}>
-                {this.state.title}
-            </p>
+          <div id="titleContainer" style={{"color":"rgb(153, 153, 153)",
+                  "fontFamily": "productSans, sans-serif",
+                  "fontSize": "30px",
+                  "paddingLeft":"5%"
+                }}>
+          {this.state.title}
           </div>
-          </div>
-          <div id="jobContainer" className="col l5 m5 s12" style={{"paddingTop":"50px"}}>
+          <div id="jobContainer" className="col l5 m5 s12">
             {this.state.ids.map((id, i) => <Card render={this.state.render} key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
             <Pagination render={this.state.render} currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickListPage.bind(this)}/>
+          </div>
           </div>
           <div id="rightColumn" className="col l7 m7">
             <FullJob width={window.innerWidth} id={this.state.id} render={this.state.render}/>
