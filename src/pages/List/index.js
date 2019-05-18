@@ -65,10 +65,8 @@ export default class List extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props, querystring.parse(this.props.location.search.substring(1)).q);
     if(Number(querystring.parse(this.props.location.search.substring(1)).q) >= 0) {
       this.setState({listNo: Number(querystring.parse(this.props.location.search.substring(1)).q)});
-      console.log(this.props.location.pathname +"/" + String(querystring.parse(this.props.location.search.substring(1)).q) + '?page=' + this.state.pageNo)
       this.props.history.push(this.props.location.pathname +"/" + String(querystring.parse(this.props.location.search.substring(1)).q) + '?page=' + this.state.pageNo);
     }
     this.getList(this.state.listNo, this.state.pageNo);
