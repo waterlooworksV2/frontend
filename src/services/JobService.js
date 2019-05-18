@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 
-export const baseURL = 'https://backend.'+window.location.hostname+'/v1/';
+let baseURL = '';
+console.log(process.env)
+if(!process.env.REACT_APP_LOCAL){
+  baseURL = 'https://backend.'+window.location.hostname+'/v1/';
+}else{
+  baseURL = 'http://'+window.location.hostname+':9000/v1/';
+}
+
 console.log(baseURL)
 var instance = axios.create({
   baseURL: baseURL,
@@ -64,6 +71,14 @@ export default class JobService{
   static filters = (query) => {
       return new Promise((resolve, reject) => {
           instance.get(baseURL + 'filter/' + String(query)).then(({data}) => {
+              resolve(data);
+          });
+      });
+  }
+
+  static getList = (id, page) => {
+      return new Promise((resolve, reject) => {
+          instance.get(baseURL + 'list/' + String(id) + "?" + stringify(page)).then(({data}) => {
               resolve(data);
           });
       });

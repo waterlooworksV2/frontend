@@ -14,7 +14,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      id: 66344,
+      id: 0,
       ids: [],
       query: '',
       pageNo: 1,

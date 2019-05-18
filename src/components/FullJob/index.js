@@ -53,11 +53,14 @@ export default class FullJob extends React.Component {
   }
 
   getJob(id) {
+    if(id === 0){
+      return {}
+    }
     return JobService.getFullJobID(id)
   }
 
   componentDidMount(){
-    if(this.props.render !== false) {
+    if(this.props.render !== false && this.props.id !== 0) {
       this.getJob(this.props.id).then(data => {
         this.setState({ job: data, blur: ''  });
       });

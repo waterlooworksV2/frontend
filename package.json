@@ -19,7 +19,7 @@
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "PORT=80 react-scripts start",
-    "local": "react-scripts start",
+    "local": "REACT_APP_LOCAL=T react-scripts start",
     "build": "yarn build-css && react-scripts build",
     "test": "CI=T react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
