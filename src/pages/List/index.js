@@ -45,11 +45,12 @@ export default class List extends Component {
   }
 
   getList(listNo, pageNo) {
+    let current_id = Number(this.props.location.hash.substring(1, ));
     JobService.getList(listNo, {page: pageNo}).then(data => {
       if(data["ids"].length !== 0){
         this.setState({
           ids: data["ids"],
-          id: data["ids"][0],
+          id: current_id? current_id: data["ids"][0],
           total: data["pages"],
           render: true, title:
           data["listName"]

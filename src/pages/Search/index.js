@@ -42,9 +42,14 @@ export default class Search extends Component {
   }
 
   getJobIDs(query, pageNo) {
+    let current_id = Number(this.props.location.hash.substring(1, ));
     JobService.getJobIDs({q:query, page: pageNo}).then(data => {
       if(data["ids"].length !== 0){
-        this.setState({ids: data["ids"], id: data["ids"][0], total: data["pages"]});
+        this.setState({
+          ids: data["ids"],
+          id: current_id? current_id: data["ids"][0],
+          total: data["pages"]
+        });
       }
       else {
         M.toast({html: '<span>No results found</span>' , classes: 'rounded', displayLength: 10000})

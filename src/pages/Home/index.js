@@ -103,11 +103,13 @@ export default class Home extends Component {
   };
 
   getJobIDs(pageNo){
+    console.log(this.props)
+    let current_id = Number(this.props.location.hash.substring(1, ));
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
           this.setState({
               ids: data["ids"],
-              id: data["ids"][0],
+              id: current_id? current_id: data["ids"][0],
               total: data["pages"]
           });
         });
