@@ -139,16 +139,9 @@ export default class Home extends Component {
         <div className="row">
           <div id="leftColumn" className="col l5 m5 s12">
             <div id="filterContainer">
-              <Filter
-                visible={this.state.visibleFilter}
-                cities={this.state.cities}
-                countries={this.state.countries}
-                render={this.state.render}
-                // onFilterChange={this.onCityChange.bind(this)}
-              />
+
             </div>
             <div id="jobContainer" className="col l5 m5 s12">
-              <Pagination prefix="top" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
               {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
               <Pagination prefix="bot" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
             </div>

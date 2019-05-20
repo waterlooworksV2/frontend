@@ -47,7 +47,9 @@ export default class FullJob extends React.Component {
         "Transportation and Housing:" : "NONE PROVIDED",
         "Work Term Duration:" : "4 month work term",
         "Work Term:" : "2018 - Fall",
-        "_id" : "65123"
+        "_id" : "65123",
+        "count": 0,
+        "cover_letter": false
       }
     }
   }
@@ -81,7 +83,9 @@ export default class FullJob extends React.Component {
           <div className="modal-content flow-text">
             <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
             <p className="secondary" style={{"margin": 0, "padding": 0, "color": "#999", "whiteSpace": "pre-line", "wordWrap": "break-word"}}>
-              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]} {this.state.job["Job Location (if exact address unknown or multiple locations):"]}<br />
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Cover Letter: </span>{this.state.job["cover_letter"]}<br />
+              <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Applications: </span>{this.state.job["count"]}<br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
               <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Responsibilities: </span>
               {this.state.job["Job Responsibilities:"]}
@@ -104,10 +108,13 @@ export default class FullJob extends React.Component {
                <div className="card">
                    <div className={`card-content box-shadow ${this.state.blur}`}  id="jobdeets" style={{"scrollBehavior": "smooth", "borderTop": "4px solid rgb(199, 196, 253)", "paddingTop": "2%", "paddingRight": "2%", "color": "#999", "position": "fixed", "overflowY": "scroll", "maxHeight": "80%", "marginRight":"2%"}}>
                        <div className="card-title">
-                           <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
+                           <p style={{"fontSize":"18px", "fontWeight":"400"}}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"] + "\n"} <span class="disable-select"><span>#</span>{String(this.state.job["id"])}</span></p>
                        </div>
                        <p className="secondary">
-                         <span className={`primary ${this.state.blur}`}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job - Province / State:"]}<br /><br />
+                         <span className={`primary ${this.state.blur}`} style={{"color":"red"}}>{this.state.job["Work Term Duration:"] === "4 month work term" ? "": "Duration: " + this.state.job["Work Term Duration:"] + "\n"}</span>
+                         <span className={`primary ${this.state.blur}`}>Location: </span>{this.state.job["Job - City:"]} {this.state.job["Job Location (if exact address unknown or multiple locations):"]} {this.state.job["Job - Province / State:"]}<br />
+                         <span className={`primary ${this.state.blur}`} style={{"color":"red"}}>{this.state.job["cover_letter"] === false ? "": "Cover Letter: Required\n"}</span>
+                         <span className={`primary ${this.state.blur}`} style={{"color":"black"}}>Number of Applications: </span>{this.state.job["count"]}<br />
                          <span className={`primary ${this.state.blur}`}>Number of Job Openings: </span>{this.state.job["Number of Job Openings:"]}<br /><br />
                          <span className={`primary ${this.state.blur}`} id="respo">Responsibilities: </span>
                          {this.state.job["Job Responsibilities:"]}
