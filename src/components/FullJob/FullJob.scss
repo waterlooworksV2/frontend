@@ -9,11 +9,15 @@
       transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
+
   p {
     margin: 0;
     padding: 0;
     white-space: pre-line;
     word-wrap: break-word;
+    .disable-select{
+      user-select:none;
+    }
   }
 
   .hover-up:hover {

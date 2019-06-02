@@ -34,9 +34,9 @@ export default class Card extends React.Component {
     });
     if(this.props.render !== false) {
         this.getJob(this.props.id).then(data => {
-            this.setState({ 
-            job: data, 
-            blur: '' 
+            this.setState({
+            job: data,
+            blur: ''
             });
         });
     }
@@ -45,11 +45,11 @@ export default class Card extends React.Component {
   render() {
     return (
       <a href={'#'+this.props.id} className="jobCard" onClick={() => this.props.onClickCard(this.props.id)}>
-        <div className="hover-up card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
+        <div className="card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
           <div className="box-shadow">
             <div className="project-box flow-text">
               <p className={`primary ${this.state.blur}`}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
-              <p className={`secondary ${this.state.blur}`}>{this.state.job["Job Summary:"]}</p>
+              <p className={`secondary ${this.state.blur}`}>{this.state.job["count"]} - {this.state.job["Job Summary:"]}</p>
             </div>
           </div>
         </div>

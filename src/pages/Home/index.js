@@ -14,7 +14,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      id: 66344,
+      id: 0,
       ids: [],
       query: '',
       pageNo: 1,
@@ -103,11 +103,13 @@ export default class Home extends Component {
   };
 
   getJobIDs(pageNo){
+    console.log(this.props)
+    let current_id = Number(this.props.location.hash.substring(1, ));
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
           this.setState({
               ids: data["ids"],
-              id: data["ids"][0],
+              id: current_id? current_id: data["ids"][0],
               total: data["pages"]
           });
         });
@@ -139,16 +141,9 @@ export default class Home extends Component {
         <div className="row">
           <div id="leftColumn" className="col l5 m5 s12">
             <div id="filterContainer">
-              <Filter
-                visible={this.state.visibleFilter}
-                cities={this.state.cities}
-                countries={this.state.countries}
-                render={this.state.render}
-                // onFilterChange={this.onCityChange.bind(this)}
-              />
+
             </div>
             <div id="jobContainer" className="col l5 m5 s12">
-              <Pagination prefix="top" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
               {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
               <Pagination prefix="bot" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
             </div>

@@ -26,6 +26,10 @@ export default class Navigation extends React.Component {
                 <i className="material-icons">person_outline</i>
               </NavLink>
               </li>
+              <li><NavLink to="/list/0" exact={true}>
+                <i className="material-icons">list</i>
+              </NavLink>
+              </li>
               <li><NavLink to="/search" exact={true}>
                 <i className="material-icons">search</i>
               </NavLink>
