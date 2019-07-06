@@ -21,20 +21,6 @@ export default class Navigation extends React.Component {
             <NavLink to="/" className="brand-logo left">
               <div><img src={logo} width="56px" height="56px" alt=""/></div>
             </NavLink>
-            <ul className="right">
-              <li><NavLink to="/profile" exact={true}>
-                <i className="material-icons">person_outline</i>
-              </NavLink>
-              </li>
-              <li><NavLink to="/list/0" exact={true}>
-                <i className="material-icons">list</i>
-              </NavLink>
-              </li>
-              <li><NavLink to="/search" exact={true}>
-                <i className="material-icons">search</i>
-              </NavLink>
-              </li>
-            </ul>
           </div>
         </nav>
       </div>
