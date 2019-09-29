@@ -107,6 +107,7 @@ export default class Home extends Component {
     let current_id = Number(this.props.location.hash.substring(1, ));
     JobService.getJobIDs({q:this.state.query, page: pageNo})
         .then(data => {
+          console.log(data)
           this.setState({
               ids: data["ids"],
               id: current_id? current_id: data["ids"][0],

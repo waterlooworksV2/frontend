@@ -13,6 +13,7 @@ export default class Navigation extends React.Component {
     };
   }
 
+
   render() {
     return this.state.logout ? <Redirect to="/" /> : (
       <div className="navbar">
