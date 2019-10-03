@@ -37,6 +37,11 @@ export default class Home extends Component {
     }
   }
 
+  onClickButton(id){
+    console.log(id)
+  }
+
+
   onClickPage(pageNo){
     this.setState({pageNo: pageNo});
     this.props.history.push(this.props.location.pathname + '?page=' + pageNo);
@@ -144,7 +149,7 @@ export default class Home extends Component {
 
             </div>
             <div id="jobContainer" className="col l5 m5 s12">
-              {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)}/>)}
+              {this.state.ids.map((id, i) => <Card key={id} id={id} onClickCard={this.onClickCard.bind(this)} onClickButton={this.onClickButton.bind(this)}/>)}
               <Pagination prefix="bot" currentPage={this.state.pageNo} totalPages={this.state.total} onClickPage={this.onClickPage.bind(this)}/>
             </div>
           </div>

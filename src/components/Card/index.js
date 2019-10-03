@@ -3,6 +3,8 @@
 import * as React from 'react';
 import './Card.css';
 
+import ListDropDown from '../ListDropDown/index.js'
+
 import JobService from '../../services/JobService.js'
 
 export default class Card extends React.Component {
@@ -27,33 +29,45 @@ export default class Card extends React.Component {
     return 'rgb(' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ',' + (Math.floor((205)*Math.random())+50) + ')';
   }
 
+  dontBubbleUpClick(e){
+    e.persist();
+    e.nativeEvent.stopImmediatePropagation();
+    e.stopPropagation();
+  }
+
   componentDidMount(){
-    let huegenerator = this.huegenerator;
-    $('.card').each(function () {
-        $(this).css("border-top-color", huegenerator());
-    });
     if(this.props.render !== false) {
         this.getJob(this.props.id).then(data => {
             this.setState({
             job: data,
-            blur: ''
+            blur: '',
+            hue: this.huegenerator()
             });
         });
     }
+    // console.log('.dropdown'+this.props.id)
+    // $('.dropdown-trigger').dropdown({ alignment: 'right'});
   }
 
   render() {
+
     return (
-      <a href={'#'+this.props.id} className="jobCard" onClick={() => this.props.onClickCard(this.props.id)}>
-        <div className="card" style= { {"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
+      <div href={'#'+this.props.id} className="jobCard" onClick={() => this.props.onClickCard(this.props.id)}>
+        <div className="card" style= { {"borderTopColor": this.state.hue ,"borderTop": "4px solid", "WebkitUserSelect": "none", "MozUserSelect": "none", "msUserSelect": "none", "userSelect": "none"} }>
           <div className="box-shadow">
             <div className="project-box flow-text">
               <p className={`primary ${this.state.blur}`}>{this.state.job["Job Title:"]}, {this.state.job["Organization:"]}</p>
               <p className={`secondary ${this.state.blur}`}>{this.state.job["count"]} - {this.state.job["Job Summary:"]}</p>
             </div>
+            <div className="list-button">
+              <a onClick={this.dontBubbleUpClick} data-target={'dropdown' + this.props.id} class={"btn-floating waves-effect waves-light dropdown-trigger" + this.props.id} style={{"backgroundColor": this.state.hue}}>
+                <i className="material-icons">add</i>
+              </a>
+            </div>
+            <ListDropDown class={this.props.id} trigger={".dropdown-trigger" + this.props.id} hue={this.state.hue} jobId={this.props.id}/>
           </div>
         </div>
-      </a>
+      </div>
     );
   }
 }
