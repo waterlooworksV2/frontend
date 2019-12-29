@@ -1,18 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useReducer } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
-    </div>
-  );
+import AuthenticatedApp from './pages/authenticated-app'
+import UnAuthenticatedApp from './pages/unauthenticated-app' 
+
+const TokenStore = React.createContext({});
+
+function tokenReducer(
+  state: {token: string}, 
+  action: {type: string, token: string}
+) {
+  console.log(state, action);
+  switch (action.type) {
+    case 'update':
+      return {token: action.token};
+    default:
+      throw new Error();
+  }
 }
 
-export default App;
+// Now, we can set only the properties we really need
+const App = () => {
+  let [state, dispatch] = useReducer(tokenReducer, {token: ''});
+  useEffect(() => {
+    console.log(state)
+  });
+  return <TokenStore.Provider value={dispatch}>
+  {(state.token || state.token !== '') ? <AuthenticatedApp/>: <UnAuthenticatedApp/>}
+  </TokenStore.Provider>
+}
+
+export {TokenStore, App};
+
