@@ -25,7 +25,7 @@ const App = () => {
     console.log(state)
   });
   return <TokenStore.Provider value={dispatch}>
-  {(state.token || state.token !== '') ? <AuthenticatedApp/>: <UnAuthenticatedApp/>}
+  {(state.token || state.token !== '') ? AuthenticatedApp(state.token): <UnAuthenticatedApp/>}
   </TokenStore.Provider>
 }
 
