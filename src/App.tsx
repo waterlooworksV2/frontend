@@ -14,11 +14,10 @@ function tokenReducer(
     case 'update':
       return {token: action.token};
     default:
-      throw new Error();
+      return {token: action.token}
   }
 }
 
-// Now, we can set only the properties we really need
 const App = () => {
   let [state, dispatch] = useReducer(tokenReducer, {token: ''});
   useEffect(() => {
@@ -29,5 +28,5 @@ const App = () => {
   </TokenStore.Provider>
 }
 
-export {TokenStore, App};
+export {TokenStore, App, tokenReducer};
 

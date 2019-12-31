@@ -23,12 +23,18 @@ function Login() {
         console.log(data)
         // @ts-ignore
         dispatch({type: 'update', token: data.user.token});
+      }).catch((err) => {
+        // @ts-ignore
+        dispatch({type: 'error', token: err});
       });  
     } else {
       JobService.login(email, password).then((token) => {
         // @ts-ignore
         dispatch({type: 'update', token: token});
-      });  
+      }).catch((err) => {
+        // @ts-ignore
+        dispatch({type: 'error', token: err});
+      });
     }
     
   }

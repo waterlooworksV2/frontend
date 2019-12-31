@@ -27,7 +27,7 @@ instance.interceptors.response.use(response => {
   else
     console.log({ message: 'Request failed' });
   /* tslint:disable-next-line */
-  return { then: function() {} };
+  return Promise.reject(error.response);
 });
 
 export default class JobService{
@@ -41,6 +41,8 @@ export default class JobService{
         }
       }).then(({data}) => {
         resolve(data.token);
+      }).catch((err) => {
+        reject(err)
       });
     });
   }
@@ -55,6 +57,8 @@ export default class JobService{
         }
       }).then(({data}) => {
         resolve(data);
+      }).catch((err) => {
+        reject(err)
       });
     });
   }

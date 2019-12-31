@@ -4,16 +4,17 @@ import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 
 import {TokenStore} from '../../App'
-import Login from '../login'
+import UnauthenticatedApp from '../unauthenticated-app'
+
 
 export default {
-  title: 'UnauthenticatedApp/Login',
-  component: Login,
+  title: 'UnauthenticatedApp',
+  component: UnauthenticatedApp,
 };
 
 
-export const DefaultLogin = () => { 
+export const Page = () => { 
   return <TokenStore.Provider value={action('LoginClick')}>
-    <Login />
+    <UnauthenticatedApp /> 
   </TokenStore.Provider>
 }
