@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import FullJob from '../../components/fullJob'
 
-const AuthenticatedApp = (token: String) => {
+const TokenStore = React.createContext('');
+
+interface AuthenticatedAppProp {
+  token: string;
+}
+
+const AuthenticatedApp = (props: AuthenticatedAppProp) => {
+  const [state, setState] = useState(props);
   return (
-    <div className="AuthenticatedApp" style={{maxWidth: "40%"}}>
-      <p style={{maxWidth: "80%", wordBreak: "break-word"}}>Logged in {token}</p>
-    </div>
+    <TokenStore.Provider value={state.token}>
+      <div className="AuthenticatedApp" style={{maxWidth: "40%"}}>
+        <FullJob jobId={114175}/>
+      </div>
+    </TokenStore.Provider>
   );
 }
 
-export default AuthenticatedApp;
+export { AuthenticatedApp, TokenStore };

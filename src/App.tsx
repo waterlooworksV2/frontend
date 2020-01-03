@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer } from 'react';
 
-import AuthenticatedApp from './pages/authenticated-app'
+import { AuthenticatedApp } from './pages/authenticated-app'
 import UnAuthenticatedApp from './pages/unauthenticated-app' 
 
-const TokenStore = React.createContext({});
+const TokenSetStore = React.createContext({});
 
 function tokenReducer(
   state: {token: string}, 
@@ -23,10 +23,13 @@ const App = () => {
   useEffect(() => {
     console.log(state)
   });
-  return <TokenStore.Provider value={dispatch}>
-  {(state.token || state.token !== '') ? AuthenticatedApp(state.token): <UnAuthenticatedApp/>}
-  </TokenStore.Provider>
+  let authenticatedApp = <AuthenticatedApp token={state.token} />
+  
+  return <TokenSetStore.Provider value={dispatch}>
+  
+  {(state.token || state.token !== '') ? authenticatedApp : <UnAuthenticatedApp/>}
+  </TokenSetStore.Provider>
 }
 
-export {TokenStore, App, tokenReducer};
+export {TokenSetStore, App, tokenReducer};
 

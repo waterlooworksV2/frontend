@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './index.scss';
 
-import JobService from '../../services/Auth'
-import { TokenStore } from '../../App'
+import { AuthService } from '../../services/API'
+import { TokenSetStore } from '../../App'
 
 
 function Login() {
@@ -14,13 +14,12 @@ function Login() {
   
   const [createOrNotLogin, setCreateOrNotLogin] = useState(false);
 
-  const dispatch = useContext(TokenStore);
+  const dispatch = useContext(TokenSetStore);
   
   function handleClick(event: any) {
     event.preventDefault();
     if(createOrNotLogin){
-      JobService.create(name, email, password).then((data) => {
-        console.log(data)
+      AuthService.create(name, email, password).then((data) => {
         // @ts-ignore
         dispatch({type: 'update', token: data.user.token});
       }).catch((err) => {
@@ -28,7 +27,7 @@ function Login() {
         dispatch({type: 'error', token: err});
       });  
     } else {
-      JobService.login(email, password).then((token) => {
+      AuthService.login(email, password).then((token) => {
         // @ts-ignore
         dispatch({type: 'update', token: token});
       }).catch((err) => {

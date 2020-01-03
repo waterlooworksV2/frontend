@@ -7,7 +7,7 @@ baseURL = 'http://'+window.location.hostname+':3001/';
 
 var instance = axios.create({
   baseURL: baseURL,
-  timeout: 1000
+  timeout: 10000
 });
 
 instance.interceptors.response.use(response => {
@@ -30,7 +30,25 @@ instance.interceptors.response.use(response => {
   return Promise.reject(error.response);
 });
 
-export default class JobService{
+class JobService{
+
+  static getJob = (token: String, jobId: number) => {
+    return new Promise((resolve, reject) => {
+      instance.get(baseURL + `jobs/full/${jobId}`, {
+          headers: { 
+            Authorization: `Token ${token}` 
+          }
+      }).then(({data}) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+}
+
+class AuthService{
 
   static login = (email: String, password: String) => {
     return new Promise((resolve, reject) => {
@@ -62,4 +80,7 @@ export default class JobService{
       });
     });
   }
+
 }
+
+export { JobService, AuthService }
