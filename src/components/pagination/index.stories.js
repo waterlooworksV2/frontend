@@ -4,12 +4,12 @@ import { action } from '@storybook/addon-actions';
 import { TokenStore } from '../../pages/authenticated-app';
 import { AuthService } from '../../services/API';
 
-import FullJob from '../fullJob'
+import PreviewJob from '../previewJob'
 const { EMAIL, PASSWORD } = process.env
 
 export default {
-  title: 'AuthenticatedApp/FullJob',
-  component: FullJob,
+  title: 'AuthenticatedApp/PreviewJob',
+  component: PreviewJob,
 };
 
 export const DefaultJob = () => { 
@@ -18,7 +18,7 @@ export const DefaultJob = () => {
     setToken(data);
   })
   return (<TokenStore.Provider value={token}>
-    <FullJob jobId={114175}/>
+    <PreviewJob jobId={114175}/>
   </TokenStore.Provider>);
 }
 
@@ -28,7 +28,7 @@ export const CoverLetterJob = () => {
     setToken(data);
   })
   return (<TokenStore.Provider value={token}>
-    <FullJob jobId={108787}/>
+    <PreviewJob jobId={108787}/>
   </TokenStore.Provider>);
 }
 
@@ -38,6 +38,6 @@ export const JobDoesntExist = () => {
     setToken(data);
   })
   return (<TokenStore.Provider value={token}>
-    <FullJob jobId={0}/>
+    <PreviewJob jobId={0}/>
   </TokenStore.Provider>);
 }

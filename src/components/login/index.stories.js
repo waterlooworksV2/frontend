@@ -3,7 +3,7 @@ import React, {useReducer} from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 
-import {TokenStore} from '../../App'
+import {TokenSetStore} from '../../App'
 import Login from '../login'
 
 export default {
@@ -13,7 +13,7 @@ export default {
 
 
 export const DefaultLogin = () => { 
-  return <TokenStore.Provider value={action('LoginClick')}>
+  return <TokenSetStore.Provider value={action('LoginClick')}>
     <Login />
-  </TokenStore.Provider>
+  </TokenSetStore.Provider>
 }

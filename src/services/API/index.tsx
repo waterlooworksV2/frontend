@@ -1,5 +1,9 @@
 import axios from 'axios';
+import {useContext} from "react";
 import { stringify } from 'query-string';
+
+import { TokenSetStore } from '../../App'
+
 
 let baseURL = '';
 
@@ -14,10 +18,9 @@ instance.interceptors.response.use(response => {
   return response;
 }, error => {
   if (error.response && [400, 401, 404].indexOf(error.response.status)) {
-    const token = '';
-    if (error.response.status === 401 && token !== null) {
-
-    }
+    const dispatch = useContext(TokenSetStore);
+    // @ts-ignore
+    dispatch({type: 'update', token: ''});
     return Promise.reject(error);
   }
   if (error.response && error.response.data && error.response.data.message)
@@ -38,6 +41,37 @@ class JobService{
           headers: { 
             Authorization: `Token ${token}` 
           }
+      }).then(({data}) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+  static getPreview = (token: String, jobId: number) => {
+    return new Promise((resolve, reject) => {
+      instance.get(baseURL + `jobs/${jobId}`, {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      }).then(({data}) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+  static search = (token: String, searchString: String, page: number) => {
+    return new Promise((resolve, reject) => {
+      instance.get(baseURL + `ids?` + stringify({
+        q: searchString,
+        page: page
+      }), {
+        headers: {
+          Authorization: `Token ${token}`
+        }
       }).then(({data}) => {
         resolve(data);
       }).catch((err) => {

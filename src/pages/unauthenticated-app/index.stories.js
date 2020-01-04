@@ -3,7 +3,7 @@ import React, {useReducer} from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 
-import {TokenStore} from '../../App'
+import {TokenSetStore} from '../../App'
 import UnauthenticatedApp from '../unauthenticated-app'
 
 
@@ -14,7 +14,7 @@ export default {
 
 
 export const Page = () => { 
-  return <TokenStore.Provider value={action('LoginClick')}>
+  return <TokenSetStore.Provider value={action('LoginClick')}>
     <UnauthenticatedApp /> 
-  </TokenStore.Provider>
+  </TokenSetStore.Provider>
 }

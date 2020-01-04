@@ -1,0 +1,37 @@
+@import "../../_global.scss";
+@import "../../_constants.scss";
+
+.PreviewCard, .PreviewLoadingCard {
+  display: block;
+  border: 1px $light-grey solid;
+  max-width: 100%;
+  padding: 1vw 1vh;
+  overflow-y: scroll;
+  margin-bottom: 3vh;
+
+  .title {
+    font-weight: 600;
+  }
+  &.CoverLetter {
+    position: relative;
+    &:before {
+      content: "";
+      background-color: red;
+      position: absolute;
+      shape-outside: circle(50%);
+      z-index: -1;
+      border-radius: 100%;
+      right: 0.75rem;
+      top: 0.75rem;
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
+}
+
+.PreviewLoadingCard{
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+  height: 20%;
+}

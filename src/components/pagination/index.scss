@@ -1,0 +1,16 @@
+@import "../../_global.scss";
+@import "../../_constants.scss";
+
+.Pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1vw;
+  a {
+    text-decoration: none;
+  }
+  .active {
+    font-size: 1.2rem;
+  }
+}

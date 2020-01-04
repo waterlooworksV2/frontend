@@ -1,0 +1,20 @@
+.AuthenticatedApp {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  .left{
+    width: 40vw;
+    padding: 1vw;
+    .previews {
+      height: 90vh;
+      overflow-y: scroll;
+    }
+  }
+  .right{
+    width: 60vw;
+    padding: 1vw;
+    height: 90vh;
+    overflow-y: scroll;
+  }
+}
