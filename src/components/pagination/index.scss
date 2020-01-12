@@ -7,8 +7,12 @@
   justify-content: space-around;
   align-items: center;
   padding: 1vw;
-  a {
+  p {
     text-decoration: none;
+    cursor: pointer;
+    &.inactive {
+      cursor: default;
+    }
   }
   .active {
     font-size: 1.2rem;

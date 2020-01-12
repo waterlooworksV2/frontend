@@ -8,15 +8,25 @@
   padding: 4%;
   overflow-y: scroll;
   max-height: 100%;
+  white-space: pre-line;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+  cursor:context-menu;
   .title {
     font-weight: 600;
   }
   .pad {
-    margin-bottom: 0.5vh;
+    margin-bottom: 1vh;
   }
 }
 
-.LoadingCard{
+.LoadingCard {
+  cursor: wait;
   height: 100%;
   display: flex;
   justify-content: center;

@@ -1,0 +1,11 @@
+.back {
+  img {
+    height: 4vh;
+    padding: 1vh;
+    @media only screen and (max-width: 900px){
+      height: 7vh;
+      padding: 1vh;
+    }
+  }
+
+}

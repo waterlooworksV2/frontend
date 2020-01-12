@@ -8,6 +8,14 @@
   padding: 1vw 1vh;
   overflow-y: scroll;
   margin-bottom: 3vh;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+  cursor:context-menu;
 
   .title {
     font-weight: 600;
@@ -16,7 +24,7 @@
     position: relative;
     &:before {
       content: "";
-      background-color: red;
+      background-color: #FF5C5C;
       position: absolute;
       shape-outside: circle(50%);
       z-index: -1;
@@ -30,6 +38,7 @@
 }
 
 .PreviewLoadingCard{
+  cursor: wait;
   display: flex;
   justify-content: center;
   padding: 5%;

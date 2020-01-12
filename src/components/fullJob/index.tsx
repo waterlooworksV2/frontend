@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./index.scss";
-
 import { JobService } from "../../services/API";
-import { TokenStore } from "../../pages/authenticated-app";
+import { TokenStore } from "../../apps/authenticated-app";
+
 
 import Loading from "../loading"
+import {ContextMenuTrigger} from "react-contextmenu";
 
 interface FullJobProp {
   jobId: number;
+  onClick?: () => void;
 }
 
 interface JobDetails {
@@ -49,7 +51,7 @@ interface JobDetails {
 }
 
 
-const FullJob = ({jobId}: FullJobProp) => {
+const FullJob = ({jobId, onClick}: FullJobProp) => {
   const [details, setDetails] = useState({} as JobDetails);
   const [loading, setLoading] = useState(true);
   const [doesntExist, setDoesntExist] = useState(false);
@@ -70,32 +72,42 @@ const FullJob = ({jobId}: FullJobProp) => {
             setDoesntExist(true);
           }
         });
+      } else if (jobId <= 0){
+        setDoesntExist(true);
       }
     }, [jobId, token]);
   if(doesntExist){
     return (
-      <div className="LoadingCard">
+      <div className="LoadingCard" onClick={onClick}>
         <span>The job you are looking for does not exist</span>
       </div>
     )
   }
   else if(loading){
     return (
-      <div className="LoadingCard">
+      <div className="LoadingCard" onClick={onClick}>
         <Loading />
       </div>
     )
   } else {
     return (
-      <div className="Card">
-        <p className="pad big"><span className="title">{details["Job Title:"]}</span></p>
-        <p>{details["Organization:"]}</p>
-        <p className="pad">{details["Job - Country:"]}, {details["Job - City:"]}</p>
-        <p className="pad">{details["Number of Job Openings:"]} {details["Number of Job Openings:"] > 1 ? 'openings' : 'opening'}</p>
-        <p className="pad"><span className="title" style={{"color":"red"}}>{details["cover_letter"] === false ? "": "Cover Letter: Required\n"}</span></p>
-        <p className="pad"><span className="title">Job Responsibilities: </span>{details["Job Responsibilities:"]}</p>
-        <p className="pad"><span className="title">Job Summary: </span>{details["Job Summary:"]}</p>
-      </div>
+      <ContextMenuTrigger
+        id="some_unique_identifier"
+        holdToDisplay={500}
+        // @ts-ignore
+        jobId={jobId}
+        collect={(props) => props}
+      >
+        <div className="Card" onClick={onClick}>
+          <p className="pad big"><span className="title">{details["Job Title:"]}</span></p>
+          <p>{details["Organization:"]}</p>
+          <p className="pad">{details["Job - Country:"]}, {details["Job - City:"].join(", ")}</p>
+          <p className="pad">{details["Number of Job Openings:"]} {details["Number of Job Openings:"] > 1 ? 'openings' : 'opening'}</p>
+          <p className="pad"><span className="title" style={{"color":"red"}}>{details["cover_letter"] === false ? "": "Cover Letter: Required\n"}</span></p>
+          <p className="pad"><span className="title">Job Responsibilities: </span>{details["Job Responsibilities:"]}</p>
+          <p className="pad"><span className="title">Job Summary: </span>{details["Job Summary:"]}</p>
+        </div>
+      </ContextMenuTrigger>
     );
   }
   

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import "./index.scss";
 
 interface PaginationProp {
@@ -10,23 +10,23 @@ interface PaginationProp {
 const Pagination = ({currentPage, totalPages, onClickPage}: PaginationProp) => {
   let lis = []
   if (currentPage > 2) {
-    lis.push(<a href="#" key={".1"}><p onClick={() => onClickPage(1)} className="inactive">1</p></a>);
+    lis.push(<p key={".1"} onClick={() => onClickPage(1)}>1</p>);
   }
   if (currentPage >= 4) {
-    lis.push(<a href="#" key={"...1"}><p className="inactive">....</p></a>);
+    lis.push(<p key={"...1"} className="inactive">....</p>);
   }
   if(currentPage > 1) {
-    lis.push(<a href="#" key={String(currentPage-1)}><p onClick={() => onClickPage(currentPage-1)} className="inactive">{currentPage-1}</p></a>)
+    lis.push(<p key={String(currentPage-1)} onClick={() => onClickPage(currentPage-1)}>{currentPage-1}</p>)
   }
-  lis.push(<a href="#" key={String(currentPage)}><p className="active">{currentPage}</p></a>)
+  lis.push(<p className="active" key={String(currentPage)}>{currentPage}</p>)
   if(currentPage+1 < totalPages) {
-    lis.push(<a href="#" key={String(currentPage+1)}><p onClick={() => onClickPage(currentPage+1)} className="inactive">{currentPage+1}</p></a>)
+    lis.push(<p key={String(currentPage+1)} onClick={() => onClickPage(currentPage+1)}>{currentPage+1}</p>)
   }
   if(currentPage + 2 < totalPages) {
-    lis.push(<a href="#" key={"...2"}><p className="inactive">....</p></a>);
+    lis.push(<p className="inactive" key={"...2"}>....</p>);
   }
   if(currentPage !== totalPages) {
-    lis.push(<a href="#" key={String(totalPages)}><p onClick={() => onClickPage(totalPages)} className="inactive">{totalPages}</p></a>);
+    lis.push(<p key={String(totalPages)} onClick={() => onClickPage(totalPages)}>{totalPages}</p>);
   }
   return (
     <div className="Pagination">

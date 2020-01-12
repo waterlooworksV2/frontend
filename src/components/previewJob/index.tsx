@@ -1,15 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, MouseEvent } from "react";
+import {ContextMenuTrigger} from 'react-contextmenu';
 import "./index.scss";
 
 import { JobService } from "../../services/API";
-import { TokenStore } from "../../pages/authenticated-app";
+import { TokenStore } from "../../apps/authenticated-app";
 
 // @ts-ignore
 import Loading from "../loading";
 
 interface PreviewJobProp {
   jobId: number;
-  onClick: () => {}
+  onClick: () => {};
 }
 
 interface JobPreviewDetails {
@@ -19,7 +20,6 @@ interface JobPreviewDetails {
   "_id": String;
   "cover_letter": boolean;
 }
-
 
 const PreviewJob = ({jobId, onClick}: PreviewJobProp) => {
   const [details, setDetails] = useState({} as JobPreviewDetails);
@@ -45,7 +45,6 @@ const PreviewJob = ({jobId, onClick}: PreviewJobProp) => {
       }
     }, [jobId, token]);
 
-
   if(doesntExist){
     return (
       <div className="PreviewLoadingCard">
@@ -61,10 +60,21 @@ const PreviewJob = ({jobId, onClick}: PreviewJobProp) => {
     )
   } else {
     return (
-      <div className={`PreviewCard ${details['cover_letter'] ? 'CoverLetter' : '' }`} onClick={onClick}>
-        <p className="title">{details["Job Title:"]}, {details["Organization:"]}</p>
-        <p>{details["Job Summary:"]}</p>
-      </div>
+      <ContextMenuTrigger
+        id="some_unique_identifier"
+        holdToDisplay={500}
+        // @ts-ignore
+        jobId={jobId}
+        collect={(props) => props}
+      >
+        <div
+          className={`PreviewCard ${details['cover_letter'] ? 'CoverLetter' : '' }`}
+          onClick={onClick}
+        >
+          <p className="title">{details["Job Title:"]}, {details["Organization:"]}</p>
+          <p>{details["Job Summary:"]}</p>
+        </div>
+      </ContextMenuTrigger>
     );
   }
   

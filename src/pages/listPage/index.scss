@@ -1,0 +1,14 @@
+.listPage {
+  width: 100vw;
+  .listPreviews {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    @media only screen and (max-width: 900px){
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+}

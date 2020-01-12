@@ -1,13 +1,22 @@
 import React, {useState, useEffect, useContext} from 'react';
+import {
+  Switch,
+  Route,
+  useHistory,
+  BrowserRouter as Router, useParams
+} from "react-router-dom";
 import './index.scss';
 
-import { JobService } from "../../services/API";
-import {TokenSetStore} from "../../App";
+import { JobService } from '../../services/API';
+import {TokenSetStore} from '../../App';
 
 import FullJob from '../../components/fullJob'
 import PreviewJob from '../../components/previewJob'
-import Pagination from "../../components/pagination";
-
+import Pagination from '../../components/pagination';
+import ContextModal from '../../components/contextModal';
+import JobsViewer from '../../components/jobsViewer';
+import JobPage from '../../pages/jobPage';
+import ListPage from "../../pages/listPage";
 
 const TokenStore = React.createContext('');
 
@@ -16,9 +25,9 @@ interface AuthenticatedAppProp {
 }
 
 const AuthenticatedApp = (props: AuthenticatedAppProp) => {
+
   const [state, setState] = useState(props);
   const [listOfJobIds, setListOfJobIds] = useState([-1, -1, -1, -1, -1, -1, -1]);
-  const [activeJobId, setActiveJobId] = useState(-1);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const {token} = props;
@@ -31,45 +40,38 @@ const AuthenticatedApp = (props: AuthenticatedAppProp) => {
 
   useEffect(
     () => {
-      if(token !== ""){
+      if(token !== ''){
+        setListOfJobIds([-1, -1, -1, -1, -1, -1, -1])
         JobService.search(token, '', currentPage).then((data) => {
           // @ts-ignore
           setListOfJobIds(data.ids);
           // @ts-ignore
-          setActiveJobId(data.ids[0]);
-          // @ts-ignore
           setTotalPages(data.pages)
         }).catch((err) => {
+          // @ts-ignore
+          dispatch({type: 'update', token: ''})
           // @ts-ignore
           console.log(err);
         });
       }
     }, [token, currentPage]);
 
-  // @ts-ignore
-  // @ts-ignore
   return (
     <TokenStore.Provider value={state.token}>
-      <div className="AuthenticatedApp">
-        <div className="left">
-          <div className="previews">
-            {listOfJobIds.map((jobId, i) => {
-              // @ts-ignore
-              return <PreviewJob key={i} jobId={jobId} onClick={() => setActiveJobId(jobId)}/>
-            })}
-          </div>
+      <Switch>
+        <Route path="/job/:jobId" component={JobPage} />
+        <Route path="/lists/:listId" component={ListPage} />
+        <Route path="/lists/" component={ListPage} />
 
-          <Pagination
+        <Route path="/" >
+          <JobsViewer
+            listOfJobIds={listOfJobIds}
             currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
             totalPages={totalPages}
-            // @ts-ignore
-            onClickPage={(page) => setCurrentPage(page)}
           />
-        </div>
-        <div className="right">
-          <FullJob jobId={activeJobId}/>
-        </div>
-      </div>
+        </Route>
+      </Switch>
     </TokenStore.Provider>
   );
 }

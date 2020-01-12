@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import {BrowserRouter as Router} from "react-router-dom";
 
-import { AuthenticatedApp } from './pages/authenticated-app'
-import UnAuthenticatedApp from './pages/unauthenticated-app' 
+import {AuthenticatedApp} from './apps/authenticated-app';
+import UnAuthenticatedApp from './apps/unauthenticated-app';
 
 const TokenSetStore = React.createContext({});
 
@@ -9,7 +10,6 @@ function tokenReducer(
   state: {token: string}, 
   action: {type: string, token: string}
 ) {
-  console.log(state, action);
   switch (action.type) {
     case 'update':
       return {token: action.token};
@@ -22,20 +22,24 @@ const App = () => {
   let [state, dispatch] = useReducer(tokenReducer, {token: ''});
 
   useEffect(() => {
-    if(window.localStorage && state.token !== localStorage.getItem('theme')){
-      if(localStorage.getItem('theme') !== null){
-        dispatch({type: 'update', token: String(localStorage.getItem('theme'))})
+    if(window.localStorage && state.token !== localStorage.getItem('token')){
+      if(localStorage.getItem('token') !== null){
+        dispatch({type: 'update', token: String(localStorage.getItem('token'))})
       }
     }
   }, [])
 
   useEffect(()=>{
     if(window.localStorage){
-      localStorage.setItem('theme', state.token);
+      localStorage.setItem('token', state.token);
     }
   },[state.token])
 
-  let authenticatedApp = <AuthenticatedApp token={state.token} />
+  let authenticatedApp =  (
+    <Router>
+      <AuthenticatedApp token={state.token} />
+    </Router>
+  )
   
   return <TokenSetStore.Provider value={dispatch}>
   {(state.token || state.token !== '') ? authenticatedApp : <UnAuthenticatedApp/>}
