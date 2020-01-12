@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 import { setupCache } from 'axios-cache-adapter'
+import {CreateListResponseType} from "../../components/contextModal";
 
 const cache = setupCache({
   maxAge: 15 * 60 * 1000
@@ -135,9 +136,76 @@ class ListService {
     });
   }
 
-  static addJobToList = (token: String, jobId: String, listId: String) => {
+  static getListPreview = (token: String, listId: string | undefined, populate?: boolean) => {
+    if(listId){
+      return new Promise((resolve, reject) => {
+        instance.get(baseURL + `lists/${listId}/preview`, {
+          headers: {
+            Authorization: `Token ${token}`
+          },
+          params: {
+            populate
+          }
+        }).then(({data}) => {
+          resolve(data);
+        }).catch((err) => {
+          reject(err)
+        });
+      });
+    }
+    return new Promise((resolve, reject) => reject({}))
+  }
+
+  static createNewList = (token: String, name: string, description: string) => {
     return new Promise((resolve, reject) => {
-      instance.post(baseURL + `lists/` + listId + "/" + jobId, {}, {
+      instance.post(baseURL + `lists/`, {
+        list: {
+          name: name,
+          description: description
+        }
+      }, {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      }).then(({data}) => {
+        resolve(data as CreateListResponseType);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+  static addJobToList = (token: String, jobId: number, listId: String) => {
+    return new Promise((resolve, reject) => {
+      instance.post(baseURL + `lists/${listId}/${jobId}`, {}, {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      }).then(({data}) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+  static removeJobFromList = (token: String, listId: String, jobId: number) => {
+    return new Promise((resolve, reject) => {
+      instance.delete(baseURL + `lists/${listId}/${jobId}`, {
+        headers: {
+          Authorization: `Token ${token}`
+        }
+      }).then(({data}) => {
+        resolve(data);
+      }).catch((err) => {
+        reject(err)
+      });
+    });
+  }
+
+  static deleteList = (token: String, listId: String) => {
+    return new Promise((resolve, reject) => {
+      instance.delete(baseURL + `lists/` + listId, {
         headers: {
           Authorization: `Token ${token}`
         }

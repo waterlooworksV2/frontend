@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import {BrowserRouter as Router} from "react-router-dom";
 
 import {AuthenticatedApp} from './apps/authenticated-app';

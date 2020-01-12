@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import {useHistory} from "react-router-dom";
 import "./index.scss";
 import { JobService } from "../../services/API";
 import { TokenStore } from "../../apps/authenticated-app";
@@ -48,6 +49,7 @@ interface JobDetails {
   "cover_letter": boolean; 
   "viewed": boolean; 
   "count": number; 
+  "color": string;
 }
 
 
@@ -55,7 +57,22 @@ const FullJob = ({jobId, onClick}: FullJobProp) => {
   const [details, setDetails] = useState({} as JobDetails);
   const [loading, setLoading] = useState(true);
   const [doesntExist, setDoesntExist] = useState(false);
+  const history = useHistory();
   const token = useContext(TokenStore);
+  
+  const search = new URLSearchParams(window.location.search);
+  useEffect(
+    () => {
+      if( 
+          search 
+          && search.has("job") 
+          && parseInt(search.get("job") as string) !== jobId 
+      ){
+        search.set("job", String(jobId))
+        history.push(`?${search.toString()}`)
+      }
+    }, [jobId]);
+  
   useEffect(
     () => {
       if(token !== "" && jobId > 0){
@@ -72,10 +89,11 @@ const FullJob = ({jobId, onClick}: FullJobProp) => {
             setDoesntExist(true);
           }
         });
-      } else if (jobId <= 0){
+      } else if (jobId < 0){
         setDoesntExist(true);
       }
     }, [jobId, token]);
+  
   if(doesntExist){
     return (
       <div className="LoadingCard" onClick={onClick}>
@@ -96,9 +114,16 @@ const FullJob = ({jobId, onClick}: FullJobProp) => {
         holdToDisplay={500}
         // @ts-ignore
         jobId={jobId}
+        path={`job/${jobId}`}
+        // @ts-ignore
+        share={true}
         collect={(props) => props}
       >
-        <div className="Card" onClick={onClick}>
+        <div 
+          className="Card" 
+          onClick={onClick}
+          style={{borderTop: `2px solid ${details["color"]}`}}
+        >
           <p className="pad big"><span className="title">{details["Job Title:"]}</span></p>
           <p>{details["Organization:"]}</p>
           <p className="pad">{details["Job - Country:"]}, {details["Job - City:"].join(", ")}</p>

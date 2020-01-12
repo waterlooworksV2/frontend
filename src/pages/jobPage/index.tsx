@@ -4,7 +4,7 @@ import "./index.scss";
 
 import FullJob from "../../components/fullJob";
 import ContextModal from "../../components/contextModal";
-import Back from "../../components/BackButton";
+import Back from "../../components/backButton";
 
 const JobPage = () => {
   const {jobId} = useParams();

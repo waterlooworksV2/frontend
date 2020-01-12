@@ -1,0 +1,60 @@
+.navbar {
+  z-index: 100;
+  max-width: 100vw;
+  color: black;
+  background-color: white;
+  height: 5vh;
+  min-height: 2.5rem;
+  position: sticky;
+  top: 0;
+  @media only screen and (max-width: 769px){
+    height: 7vh;
+  }
+  nav {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    align-items: center;
+    .left {
+      margin-left: 1%;
+      @media only screen and (max-width: 769px){
+        margin-left: 1%;
+      }
+      img {
+        height: 6vh;
+        padding: 0.5vh 0;
+      }
+    }
+    .right {
+      padding-right: 5%;
+      // @media only screen and (max-width: 769px){
+      //   display: none;
+      // }
+      font-size: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      a, p {
+        margin-left: 5%;
+        cursor: pointer;
+      }
+      .active {
+        padding-bottom: 2px;
+        border-bottom: 1px solid #000;
+      }
+      .searchbar {
+        margin-left: 1vw;
+      }
+      .searchIcon {
+        img {
+          padding: 1vh;
+          height: 4vh;
+        }
+      }
+    }
+  }
+  a, a:visited {
+    color: inherit !important;
+    text-decoration: none;
+  }
+}

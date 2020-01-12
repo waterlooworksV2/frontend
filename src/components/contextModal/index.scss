@@ -1,6 +1,13 @@
 .ContextModal {
   display: flex;
   justify-content: center;
+
+}
+.list-details {
+  label {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .react-contextmenu {

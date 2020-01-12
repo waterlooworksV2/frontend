@@ -2,27 +2,39 @@
 @import "../../_constants.scss";
 
 .PreviewCard, .PreviewLoadingCard {
+  border: 1px solid #EEE;
   display: block;
-  border: 1px $light-grey solid;
   max-width: 100%;
   padding: 1vw 1vh;
   overflow-y: scroll;
   margin-bottom: 3vh;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                supported by Chrome, Edge, Opera and Firefox */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   cursor:context-menu;
+  position: relative;
+  word-break: break-all;
 
+  .job-title {
+    padding-right: 1vw;
+  }
   .title {
     font-weight: 600;
   }
+  .close-button {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    width: 1vw;
+    height: 1vw;
+    cursor:pointer;
+  }
   &.CoverLetter {
     position: relative;
-    &:before {
+    &:after {
       content: "";
       background-color: #FF5C5C;
       position: absolute;
@@ -30,7 +42,7 @@
       z-index: -1;
       border-radius: 100%;
       right: 0.75rem;
-      top: 0.75rem;
+      bottom: 0.75rem;
       width: 0.75rem;
       height: 0.75rem;
     }

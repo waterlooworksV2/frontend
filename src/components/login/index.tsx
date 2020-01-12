@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import './index.scss';
 
 import { AuthService } from '../../services/API'
 import { TokenSetStore } from '../../App'
+import LoadingSpinner from "../loadingSpinner";
 
 
 function Login() {
@@ -16,9 +17,6 @@ function Login() {
 
   const dispatch = useContext(TokenSetStore);
 
-
-
-  
   function handleClick(event: any) {
     event.preventDefault();
     if(createOrNotLogin){
@@ -57,15 +55,19 @@ function Login() {
           <input value={password} type="password" name="password" onChange={(event) => setPassword(event.target.value)}/>
         </label>
         <div className="flex-inner">
-          <input type="submit" value="Submit" onClick={handleClick} /> 
-          <button 
+          {
+            formSubmitted ?
+              <LoadingSpinner />
+              : <input type="submit" value="Submit" onClick={handleClick} />
+          }
+          <button
             type="button"
-            className="link-button" 
+            className="link-button"
             onClick={() => setCreateOrNotLogin(!createOrNotLogin)} >
             {
               createOrNotLogin ?
-               "or Login" : 
-               "or Create Account"
+                "or Login" :
+                "or Create Account"
             }
           </button>
         </div>

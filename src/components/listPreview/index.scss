@@ -1,5 +1,5 @@
 .listPreview {
-  border: 1px black solid;
+  border: 1px solid #EEEEEE;
   width: 46vw;
   margin: 2vw;
   padding: 1vw;
@@ -8,8 +8,21 @@
     margin: 2vw;
     padding: 1vw;
   }
+  &.loading {
+    display: flex;
+    justify-content: center;
+  }
   .title {
     font-weight: 600;
     margin-top: 0.5vh;
+  }
+  .close-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    img {
+      width: 1vw;
+      height: 1vw;
+    }
   }
 }

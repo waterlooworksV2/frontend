@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { ContextMenu, SubMenu, MenuItem } from 'react-contextmenu';
+import Clipboard from 'react-clipboard.js';
 
 import './index.scss';
 
@@ -11,23 +12,29 @@ import {TokenStore} from "../../apps/authenticated-app";
 import {ListType} from "../listPreview"
 
 interface ContextModalType {
-  jobId?: number;
+  listPage?: boolean
+}
+
+export interface CreateListResponseType {
+  list: ListType;
 }
 
 // @ts-ignore
-export default function ContextModal(props: ContextModalType) {
+export default function ContextModal({listPage}: ContextModalType) {
   const token = useContext(TokenStore);
   const [loading, setLoading] = useState(true);
   const [lists, setLists] = useState([] as ListType[]);
   const [listLoading, setListLoading] = useState({index: 0, loading: false})
   const [listDone, setListDone] = useState({index: 0, done: 0})
+  const [clipboardVal, setClipboardVal] = useState('');
+  const [showListDetails, setShowListDetails] = useState(false);
+  const [listName, setListName] = useState('')
 
   useEffect(
     () => {
       if(token !== ""){
         setLoading(false);
         ListService.getLists(token).then((data) => {
-          console.log(data)
           // @ts-ignore
           setLists(data.lists)
         }).catch((err: any) => {
@@ -36,7 +43,7 @@ export default function ContextModal(props: ContextModalType) {
       }
     }, [token]);
 
-  const addJobToList = (index: number, listId: String, jobId: String) => {
+  const addJobToList = (index: number, listId: String, jobId: number) => {
     setListLoading({index: index, loading: true})
     if(token !== ""){
       ListService.addJobToList(
@@ -54,11 +61,25 @@ export default function ContextModal(props: ContextModalType) {
   }
 
   useEffect(() => {
-    if(listDone.done != 0){
+    if(listDone.done !== 0){
       const timer = setTimeout(() => setListDone({index: -1, done: 0}), 1000);
       return () => clearTimeout(timer);
     }
   }, [listDone]);
+
+  const createList = (name: string, description: string) => {
+    if(token !== ""){
+      ListService.createNewList(token, name, description).then((data) => {
+        console.log(data)
+        // @ts-ignore
+        setLists([...lists, data.list])
+        setShowListDetails(false);
+        setListName('')
+      }).catch((err: any) => {
+        console.log(err)
+      })
+    }
+  }
 
   if(loading){
       return (
@@ -68,28 +89,63 @@ export default function ContextModal(props: ContextModalType) {
       )
     }
     return (
-      <ContextMenu id="some_unique_identifier">
-        <MenuItem disabled>
-          Add to List
-        </MenuItem>
-        <MenuItem divider />
-        {lists.map((list, index) => {
-          const {_id} = list;
-          return (
-            // @ts-ignore
-            <MenuItem preventClose={true} key={index} onClick={(e, data, target) => addJobToList(index, _id, data.jobId)}>
-              <div>
-                <span>{list.name}</span>
-                {listLoading.index === index && listLoading.loading && <LoadingSpinner/>}
-                <span>
-                  {listDone.index === index && listDone.done > 0 && '✅'}
-                  {listDone.index === index && listDone.done < 0 && '❌'}
-                </span>
-              </div>
+      <div>
+        <ContextMenu id="some_unique_identifier"
+                     // @ts-ignore
+                     collect={props => props}
+                     onShow={e => setClipboardVal(`${window.location.host}/${e.detail.data.path}`)}>
+          <SubMenu title={"Add to List"}>
+            {lists.map((list, index) => {
+              const {_id} = list;
+              return (
+                // @ts-ignore
+                <MenuItem preventClose={true} key={index}
+                  // @ts-ignore
+                          onClick={(e, data, target) => addJobToList(index, _id, data.jobId)}>
+                  <div>
+                    <span>{list.name}</span>
+                    {listLoading.index === index && listLoading.loading && <LoadingSpinner/>}
+                    <span>
+                {listDone.index === index && listDone.done > 0 && '✅'}
+                      {listDone.index === index && listDone.done < 0 && '❌'}
+              </span>
+                  </div>
+                </MenuItem>
+              )
+            })}
+            <MenuItem preventClose={true}
+                      onClick={(e, data, target) => setShowListDetails(true)}
+            >
+              {showListDetails ?
+                <div className={"list-details"}>
+                  <label>
+                    Enter list name
+                    <input value={listName} onChange={(e) => setListName(e.target.value)}/>
+                    <button type={"submit"} onClick={() => createList(listName, '')}>
+                      Submit
+                    </button>
+                  </label>
+                </div>
+
+                :
+                "Create"}
             </MenuItem>
-          )
-        })}
-      </ContextMenu>
+          </SubMenu>
+          {
+            document.queryCommandSupported('copy') &&
+            <>
+              <MenuItem divider/>
+              <MenuItem>
+                <Clipboard component="div" data-clipboard-text={clipboardVal}>
+                  Share
+                </Clipboard>
+              </MenuItem>
+            </>
+          }
+        </ContextMenu>
+      </div>
+
+
     );
 }
 
