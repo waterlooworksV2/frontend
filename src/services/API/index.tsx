@@ -9,7 +9,7 @@ const cache = setupCache({
 
 let baseURL = '';
 
-baseURL = 'http://'+window.location.hostname+':3001/';
+baseURL = 'https://waterlooworks-backend.herokuapp.com/';
 
 var instance = axios.create({
   baseURL: baseURL,

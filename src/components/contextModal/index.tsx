@@ -28,8 +28,9 @@ export default function ContextModal({listPage}: ContextModalType) {
   const [listDone, setListDone] = useState({index: 0, done: 0})
   const [clipboardVal, setClipboardVal] = useState('');
   const [showListDetails, setShowListDetails] = useState(false);
-  const [listName, setListName] = useState('')
-
+  const [listName, setListName] = useState('');
+  const [jobID, setJobID] = useState("");
+  
   useEffect(
     () => {
       if(token !== ""){
@@ -66,21 +67,30 @@ export default function ContextModal({listPage}: ContextModalType) {
       return () => clearTimeout(timer);
     }
   }, [listDone]);
+  
+  const restoreCreateListState = () => {
+    setShowListDetails(false);
+    setListName("");
+    setJobID("");
+  }
 
   const createList = (name: string, description: string) => {
     if(token !== ""){
       ListService.createNewList(token, name, description).then((data) => {
-        console.log(data)
         // @ts-ignore
         setLists([...lists, data.list])
-        setShowListDetails(false);
-        setListName('')
+        restoreCreateListState();
       }).catch((err: any) => {
         console.log(err)
       })
     }
   }
-
+  
+  const onShowContextMenu = (e: any) => {
+    setClipboardVal(`${window.location.host}/${e.detail.data.path}`);
+    setJobID(String(e.detail.data.jobId));
+  }
+  console.log(lists)
   if(loading){
       return (
         <ContextMenu className={"ContextModal"} id="some_unique_identifier">
@@ -90,31 +100,41 @@ export default function ContextModal({listPage}: ContextModalType) {
     }
     return (
       <div>
-        <ContextMenu id="some_unique_identifier"
-                     // @ts-ignore
-                     collect={props => props}
-                     onShow={e => setClipboardVal(`${window.location.host}/${e.detail.data.path}`)}>
+        <ContextMenu 
+        id="some_unique_identifier"
+         // @ts-ignore
+         collect={props => props}
+         onShow={onShowContextMenu}
+         onHide={e => restoreCreateListState()}
+       >
           <SubMenu title={"Add to List"}>
             {lists.map((list, index) => {
+              console.log(list);
               const {_id} = list;
               return (
-                // @ts-ignore
-                <MenuItem preventClose={true} key={index}
+                <MenuItem 
+                  preventClose={true} key={index}
                   // @ts-ignore
-                          onClick={(e, data, target) => addJobToList(index, _id, data.jobId)}>
-                  <div>
+                  onClick={(e, data, target) => addJobToList(index, _id, data.jobId)}
+                >
+                  <div className="lists">
                     <span>{list.name}</span>
                     {listLoading.index === index && listLoading.loading && <LoadingSpinner/>}
                     <span>
-                {listDone.index === index && listDone.done > 0 && '✅'}
+                      {listDone.index === index && listDone.done > 0 && '✅'}
                       {listDone.index === index && listDone.done < 0 && '❌'}
-              </span>
+                      {
+                        // @ts-ignore
+                        list && list.jobIDs && list.jobIDs.includes(jobID) && '✅'
+                      }
+                    </span>
                   </div>
                 </MenuItem>
               )
             })}
-            <MenuItem preventClose={true}
-                      onClick={(e, data, target) => setShowListDetails(true)}
+            <MenuItem 
+              preventClose={true}
+              onClick={(e, data, target) => setShowListDetails(true)}
             >
               {showListDetails ?
                 <div className={"list-details"}>

@@ -5,7 +5,7 @@
   border: 1px solid #EEE;
   display: block;
   max-width: 100%;
-  padding: 1vw 1vh;
+  padding: 1vw 2vh;
   overflow-y: scroll;
   margin-bottom: 3vh;
   -webkit-touch-callout: none;
@@ -13,10 +13,10 @@
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  scrollbar-width: none;
   user-select: none;
   cursor:context-menu;
   position: relative;
-  word-break: break-all;
 
   .job-title {
     padding-right: 1vw;
@@ -47,6 +47,13 @@
       height: 0.75rem;
     }
   }
+}
+
+.react-contextmenu-item.lists {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .PreviewLoadingCard{

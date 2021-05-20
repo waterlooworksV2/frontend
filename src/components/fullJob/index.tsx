@@ -67,6 +67,7 @@ const FullJob = ({jobId, onClick}: FullJobProp) => {
           search 
           && search.has("job") 
           && parseInt(search.get("job") as string) !== jobId 
+          && jobId !== 0 
       ){
         search.set("job", String(jobId))
         history.push(`?${search.toString()}`)
@@ -131,6 +132,7 @@ const FullJob = ({jobId, onClick}: FullJobProp) => {
           <p className="pad"><span className="title" style={{"color":"red"}}>{details["cover_letter"] === false ? "": "Cover Letter: Required\n"}</span></p>
           <p className="pad"><span className="title">Job Responsibilities: </span>{details["Job Responsibilities:"]}</p>
           <p className="pad"><span className="title">Job Summary: </span>{details["Job Summary:"]}</p>
+          <p className="pad"><span className="title">Job Requirements: </span>{details["Required Skills:"]}</p>
         </div>
       </ContextMenuTrigger>
     );

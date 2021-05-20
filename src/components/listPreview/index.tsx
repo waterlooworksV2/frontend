@@ -18,7 +18,7 @@ export interface MiniJobPreview {
 
 export interface ListType {
   name?: string;
-  jobIDs?: number[] | MiniJobPreview[];
+  jobIDs?: string[] | MiniJobPreview[];
   owner?: String;
   description?: String;
   _id?: string;

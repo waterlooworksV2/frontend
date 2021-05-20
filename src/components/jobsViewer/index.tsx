@@ -25,6 +25,14 @@ const JobsViewer = ({
 }: JobsViewerProp) => {
   const [activeJobId, setActiveJobId] = useState(0);
   
+  useEffect(
+    () => {
+      const searchJobId = search && search.get("job");
+      if(searchJobId){
+        setActiveJobId(parseInt(searchJobId))
+      }
+    }, []);
+  
   let myRef = React.createRef<HTMLDivElement>()
 
   const history = useHistory();
@@ -33,8 +41,6 @@ const JobsViewer = ({
 
   const clickPreview = (jobID: number) => {
     setActiveJobId(jobID);
-    search.set("job", String(jobID))
-    history.push(`?${search.toString()}`)
     if(window.innerWidth < 900){
       history.push(`/job/${jobID}`)
     }
@@ -42,7 +48,7 @@ const JobsViewer = ({
 
   useEffect(
     () => {
-      if(listOfJobIds.indexOf(activeJobId) < 0 && listOfJobIds.length > 0){
+      if(listOfJobIds.indexOf(activeJobId) < 0 && listOfJobIds.length > 0 && activeJobId === 0){
         setActiveJobId(listOfJobIds[0])
       }
       myRef && myRef.current && myRef.current.scrollTo(0, 0);
@@ -69,7 +75,7 @@ const JobsViewer = ({
               // @ts-ignore
               return (
                 <PreviewJob
-                  key={jobId + i}
+                  key={String(jobId) + String(i)}
                   jobId={jobId}
                   // @ts-ignore
                   onClick={() => clickPreview(jobId)}
